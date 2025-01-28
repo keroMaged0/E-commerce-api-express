@@ -6,6 +6,7 @@
   "scripts": {
     "build": "npx tsc -p tsconfig.json",
     "start": "node build/index.js",
+    "start:dev": "ts-node-dev --respawn src/index.ts",
     "dev": "nodemon --exec ts-node-dev src/index.ts",
     "test": "jest --no-cache --runInBand --forceExit",
     "lint": "eslint --fix .",
@@ -15,11 +16,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "http": "^0.0.1-security",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.12.0",
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "nodemailer": "^6.10.0",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "uuid": "^11.0.5",
+    "v4": "^0.0.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
