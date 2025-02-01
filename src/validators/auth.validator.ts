@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const signup = {
+const signup = {
   body: Joi.object({
     name: Joi.string().trim().min(2).max(20).lowercase().required(),
     email: Joi.string().trim().lowercase().email().required(),
@@ -26,7 +26,7 @@ export const signup = {
   }),
 };
 
-export const signin = {
+const signin = {
   body: Joi.object({
     email: Joi.string().trim().lowercase().email().required(),
     password: Joi.string()
@@ -37,26 +37,26 @@ export const signin = {
   }),
 };
 
-export const verification = {
+const verification = {
   body: Joi.object({
     email: Joi.string().trim().lowercase().email().required(),
     verification_code: Joi.string().required(),
   }),
 };
 
-export const resendVerification = {
+const resendVerification = {
   body: Joi.object({
     email: Joi.string().trim().lowercase().email().required(),
   }),
 };
 
-export const refreshToken = {
+const refreshToken = {
   headers: Joi.object({
     authorization: Joi.string().required(),
   }).unknown(),
 };
 
-export const changePassword = {
+const changePassword = {
   body: Joi.object({
     old_password: Joi.string(),
     new_password: Joi.string()
@@ -67,13 +67,13 @@ export const changePassword = {
   }),
 };
 
-export const askForgetPassword = {
+const askForgetPassword = {
   body: Joi.object({
     email: Joi.string().trim().lowercase().email().required(),
   }),
 };
 
-export const updateForgetenPassword = {
+const updateForgetenPassword = {
   body: Joi.object({
     email: Joi.string().trim().lowercase().email().required(),
     verification_code: Joi.string().required(),
@@ -86,7 +86,8 @@ export const updateForgetenPassword = {
   }),
 };
 
-export const authValidators = {
+
+export {
   signup,
   signin,
   verification,

@@ -7,9 +7,13 @@ export enum ErrorCodes {
   USER_NOT_VERIFIED = "USER_NOT_VERIFIED",
   NO_REASON_TO_RESEND_CODE = "NO_REASON_TO_RESEND_CODE",
   UNAUTHENTICATED = "UNAUTHENTICATED",
+  UNAUTHORIZED = "UNAUTHORIZED",
   INVALID_TOKEN = "INVALID_TOKEN",
   VALIDATION_ERROR = "VALIDATION_ERROR",
   INVALID_VERIFICATION_CODE = "INVALID_VERIFICATION_CODE",
+  CATEGORY_ALREADY_EXISTS = "CATEGORY_ALREADY_EXISTS",
+  CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND",
+  CATEGORY_HAS_CHILDREN = "CATEGORY_HAS_CHILDREN",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -21,8 +25,11 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.USER_NOT_VERIFIED]: "User Not Verified",
   [ErrorCodes.NO_REASON_TO_RESEND_CODE]: "No Reason To Resend Code",
   [ErrorCodes.UNAUTHENTICATED]: "Unauthenticated",
+  [ErrorCodes.UNAUTHORIZED]: "Unauthorized",
   [ErrorCodes.INVALID_TOKEN]: "Invalid Token",
   [ErrorCodes.VALIDATION_ERROR]: "Validation Error",
   [ErrorCodes.INVALID_VERIFICATION_CODE]: "Invalid Verification Code",
+  [ErrorCodes.CATEGORY_ALREADY_EXISTS]: "Category Already Exists",
+  [ErrorCodes.CATEGORY_NOT_FOUND]: "Category Not Found",
+  [ErrorCodes.CATEGORY_HAS_CHILDREN]: "Category Has Children",
 };
-
