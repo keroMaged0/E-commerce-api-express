@@ -15,6 +15,7 @@ export enum ErrorCodes {
   CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND",
   CATEGORY_HAS_CHILDREN = "CATEGORY_HAS_CHILDREN",
   INVALID_FILE_FORMAT = "INVALID_FILE_FORMAT",
+  IMAGE_NOT_FOUND = "IMAGE_NOT_FOUND",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -34,4 +35,5 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.CATEGORY_NOT_FOUND]: "Category Not Found",
   [ErrorCodes.CATEGORY_HAS_CHILDREN]: "Category Has Children",
   [ErrorCodes.INVALID_FILE_FORMAT]: "Invalid File Format",
+  [ErrorCodes.IMAGE_NOT_FOUND]: "Image Not Found",
 };
