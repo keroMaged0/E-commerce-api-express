@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 
 import { BadRequest } from "../errors/bad-request.error";
 import { ErrorCodes } from "../types/errors-code.type";
+import { logger } from "../config/winston";
 
 export interface UploadOptions {
   fileType?: string[];
@@ -31,7 +32,7 @@ export const uploadMemoryStorage = (options?: UploadOptions) =>
               return callback(new BadRequest(ErrorCodes.INVALID_FILE_FORMAT));
             callback(null, true);
           } catch (error) {
-            console.log(error);
+            logger.error(error);
             return callback(new BadRequest(ErrorCodes.INVALID_FILE_FORMAT));
           }
         } as any),

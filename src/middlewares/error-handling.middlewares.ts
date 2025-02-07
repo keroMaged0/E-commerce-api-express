@@ -2,6 +2,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 import { AppError } from "../errors/app-error.error";
 import { env } from "../config/env";
+import { logger } from "../config/winston";
 
 export const errorHandler: ErrorRequestHandler = async (
   err: Error,
@@ -9,7 +10,7 @@ export const errorHandler: ErrorRequestHandler = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (env.environment === "development") console.error(err);
+  if (env.environment === "development") logger.error(err);
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({ message: err.serializeError() });

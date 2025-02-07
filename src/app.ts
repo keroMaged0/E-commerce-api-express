@@ -19,3 +19,4 @@ app.use("/api/v1", appRoutes);
 
 app.use("*", Middlewares.routeNotFound);
 app.use(Middlewares.errorHandler);
+
