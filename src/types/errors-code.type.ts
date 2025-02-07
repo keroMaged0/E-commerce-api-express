@@ -16,6 +16,8 @@ export enum ErrorCodes {
   CATEGORY_HAS_CHILDREN = "CATEGORY_HAS_CHILDREN",
   INVALID_FILE_FORMAT = "INVALID_FILE_FORMAT",
   IMAGE_NOT_FOUND = "IMAGE_NOT_FOUND",
+  IMAGE_REQUIRED  = "IMAGE_REQUIRED",
+  CLOUDINARY_ERROR = "CLOUDINARY_ERROR",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -36,4 +38,6 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.CATEGORY_HAS_CHILDREN]: "Category Has Children",
   [ErrorCodes.INVALID_FILE_FORMAT]: "Invalid File Format",
   [ErrorCodes.IMAGE_NOT_FOUND]: "Image Not Found",
+  [ErrorCodes.IMAGE_REQUIRED]: "Image Required",
+  [ErrorCodes.CLOUDINARY_ERROR]: "Cloudinary Error",
 };

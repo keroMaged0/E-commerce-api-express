@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+import { uploadMemoryStorage } from "../middlewares/upload-files.middleware";
 import { validator } from "../middlewares/validator.middleware";
 import * as handlers from "../controllers/categories/index";
 import * as val from "../validators/categories.validator";
@@ -14,6 +15,7 @@ router
   .post(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
+    uploadMemoryStorage().single("image"),
     validator(val.createCategory),
     handlers.createCategoryHandler
   );
@@ -28,6 +30,7 @@ router
   .put(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
+    uploadMemoryStorage().single("image"),
     validator(val.updateCategory),
     handlers.updateCategoryHandler
   )
@@ -44,6 +47,6 @@ router
     Guards.isauthenticated,
     validator(val.paramsVal),
     handlers.getChildCategoriesHandler
-  )
-  
+  );
+
 export const categoriesRoutes = router;
