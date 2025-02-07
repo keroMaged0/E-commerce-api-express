@@ -5,7 +5,11 @@ interface ICategory extends Document {
   name: string;
   slug: string;
   description: string;
-  image_url?: string;
+  image_url?: {
+    public_id: string;
+    secure_url: string;
+  };
+  folder_id?: string;
   is_deleted?: boolean;
   parent_id?: Types.ObjectId | ICategory;
   children_id?: Types.ObjectId[] | ICategory[];
@@ -34,7 +38,23 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
       required: [true, "description is required"],
       minlength: 10,
     },
-    image_url: String,
+    image_url: {
+      public_id: {
+        type: String,
+        required: false,
+        default: null,
+      },
+      secure_url: {
+        type: String,
+        required: false,
+        default: null,
+      },
+    },
+    folder_id: {
+      type: String,
+      required: false,
+      default: null,
+    },
     is_deleted: {
       type: Boolean,
       default: false,

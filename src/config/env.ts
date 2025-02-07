@@ -30,4 +30,15 @@ export const env = {
     apiKey: process.env.CLOUDINARY_API_KEY!,
     apiSecret: process.env.CLOUDINARY_API_SECRET!,
   },
+
+  mediaStorage: {
+    cloudinary: {
+      folder: process.env.CLOUDINARY_FOLDER || 'default-folder',
+      images: {
+        category: process.env.CLOUDINARY_CATEGORY || 'default-category-folder',
+        subcategory: process.env.CLOUDINARY_SUBCATEGORY || 'default-subcategory-folder',
+        product: process.env.CLOUDINARY_PRODUCT || 'default-product-folder',
+      },
+    },
+  },
 };
