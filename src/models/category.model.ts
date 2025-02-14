@@ -1,15 +1,16 @@
 import { Document, model, Model, Schema, Types } from "mongoose";
 import slugify from "slugify";
 
+interface IIamge {
+  public_id: string;
+  secure_url: string;
+  folder_id: string;
+}
 interface ICategory extends Document {
   name: string;
   slug: string;
   description: string;
-  image_url?: {
-    public_id: string;
-    secure_url: string;
-  };
-  folder_id?: string;
+  image_url?: IIamge;
   is_deleted?: boolean;
   parent_id?: Types.ObjectId | ICategory;
   children_id?: Types.ObjectId[] | ICategory[];
@@ -49,12 +50,13 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
         required: false,
         default: null,
       },
+      folder_id: {
+        type: String,
+        required: false,
+        default: null,
+      },
     },
-    folder_id: {
-      type: String,
-      required: false,
-      default: null,
-    },
+
     is_deleted: {
       type: Boolean,
       default: false,
@@ -70,6 +72,7 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
         },
         message: "parent category can't be the same as the category itself",
       },
+      default: null,
     },
     children_id: [
       {

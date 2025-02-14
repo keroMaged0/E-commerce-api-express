@@ -28,16 +28,19 @@ export const uploadImageToCloudinary = async (
     return {
       secure_url: result.secure_url,
       public_id: result.public_id,
-      folderId,
+      folder_id: folderId,
     };
   } catch (error) {
     logger.error(error);
   }
 };
 
-export const updateImage = async (oldPublicId, file: Express.Multer.File) => {
+export const updateImage = async (
+  oldPublicId,
+  folderId,
+  file: Express.Multer.File
+) => {
   try {
-    const folderId = oldPublicId.split("/category/")[1].split("/")[0];
     const basePath = oldPublicId.split(`${folderId}`)[0];
 
     const uploadResult = await uploadImageToCloudinary(

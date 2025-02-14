@@ -16,8 +16,17 @@ export enum ErrorCodes {
   CATEGORY_HAS_CHILDREN = "CATEGORY_HAS_CHILDREN",
   INVALID_FILE_FORMAT = "INVALID_FILE_FORMAT",
   IMAGE_NOT_FOUND = "IMAGE_NOT_FOUND",
-  IMAGE_REQUIRED  = "IMAGE_REQUIRED",
+  IMAGE_REQUIRED = "IMAGE_REQUIRED",
   CLOUDINARY_ERROR = "CLOUDINARY_ERROR",
+  INVALID_DISCOUNT = "INVALID_DISCOUNT",
+  INVALID_CATEGORY_ID = "INVALID_CATEGORY_ID",
+  INVALID_FILE_COUNT = "INVALID_FILE_COUNT",
+  PRODUCT_NOT_FOUND = "PRODUCT_NOT_FOUND",
+  NOT_ALLOWED = "NOT_ALLOWED",
+  MISSING_OLD_PUBLIC_ID = "MISSING_OLD_PUBLIC_ID",
+  NO_FILE_UPLOADED = "NO_FILE_UPLOADED",
+  MAXIMUM_FILE_UPLOAD = "MAXIMUM_FILE_UPLOAD",
+  PRODUCT_ALREADY_HAS_IMAGES = "PRODUCT_ALREADY_HAS_IMAGES",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -40,4 +49,13 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.IMAGE_NOT_FOUND]: "Image Not Found",
   [ErrorCodes.IMAGE_REQUIRED]: "Image Required",
   [ErrorCodes.CLOUDINARY_ERROR]: "Cloudinary Error",
+  [ErrorCodes.INVALID_DISCOUNT]: "Invalid Discount",
+  [ErrorCodes.INVALID_CATEGORY_ID]: "Invalid Category ID",
+  [ErrorCodes.INVALID_FILE_COUNT]: "Invalid File Count",
+  [ErrorCodes.PRODUCT_NOT_FOUND]: "Product Not Found",
+  [ErrorCodes.NOT_ALLOWED]: "Not Allowed",
+  [ErrorCodes.MISSING_OLD_PUBLIC_ID]: "Missing Old Public ID",
+  [ErrorCodes.NO_FILE_UPLOADED]: "No File Uploaded",
+  [ErrorCodes.MAXIMUM_FILE_UPLOAD]: "Maximum File Upload",
+  [ErrorCodes.PRODUCT_ALREADY_HAS_IMAGES]: "Product Already Has Images",
 };
