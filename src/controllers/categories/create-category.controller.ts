@@ -28,7 +28,7 @@ export const createCategoryHandler: RequestHandler<
   let finalImageData: {
     secure_url: string;
     public_id: string;
-    folderId: string;
+    folder_id: string;
   } | null = null;
 
   if (req.file) {
@@ -47,7 +47,6 @@ export const createCategoryHandler: RequestHandler<
     description,
     slug,
     image_url: finalImageData,
-    folder_id: finalImageData?.folderId,
     parent_id,
     created_by: user_id,
   });

@@ -17,7 +17,7 @@ export const updateCategoryHandler: RequestHandler<
     parent_id?: string;
   }
 > = async (req, res, next) => {
-  const { name, description, image_url, parent_id } = req.body;
+  const { name, description, parent_id } = req.body;
   const { user_id } = req.loggedUser;
   const { id } = req.params;
 
@@ -41,7 +41,7 @@ export const updateCategoryHandler: RequestHandler<
   }
 
   if (req?.file) {
-    if (!category.folder_id) {
+    if (!category?.image_url?.folder_id) {
       let uploadResult = await uploadImageToCloudinary(
         req.file,
         env.mediaStorage.cloudinary.images.category
@@ -52,17 +52,23 @@ export const updateCategoryHandler: RequestHandler<
       category.image_url = {
         secure_url: uploadResult.secure_url,
         public_id: uploadResult.public_id,
+        folder_id: uploadResult.folder_id,
       };
-      category.folder_id = uploadResult.folderId;
     } else {
       const oldPublicId = category.image_url?.public_id;
-      const updatedSecureUrl = await updateImage(oldPublicId, req.file);
+      const folderId = category.image_url?.folder_id;
+      const updatedSecureUrl = await updateImage(
+        oldPublicId,
+        folderId,
+        req.file
+      );
       if (!updatedSecureUrl)
         return next(new Errors.BadRequest(ErrorCodes.CLOUDINARY_ERROR));
 
       category.image_url = {
         secure_url: updatedSecureUrl,
-        public_id: oldPublicId as string,
+        public_id: oldPublicId,
+        folder_id: category.image_url?.folder_id,
       };
     }
   }
