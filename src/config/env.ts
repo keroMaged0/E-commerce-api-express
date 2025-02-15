@@ -33,11 +33,13 @@ export const env = {
 
   mediaStorage: {
     cloudinary: {
-      folder: process.env.CLOUDINARY_FOLDER || 'default-folder',
+      folder: process.env.CLOUDINARY_FOLDER || "default-folder",
       images: {
-        category: process.env.CLOUDINARY_CATEGORY || 'default-category-folder',
-        subcategory: process.env.CLOUDINARY_SUBCATEGORY || 'default-subcategory-folder',
-        product: process.env.CLOUDINARY_PRODUCT || 'default-product-folder',
+        category: process.env.CLOUDINARY_CATEGORY || "default-category-folder",
+        subcategory:
+          process.env.CLOUDINARY_SUBCATEGORY || "default-subcategory-folder",
+        product: process.env.CLOUDINARY_PRODUCT || "default-product-folder",
+        brand: process.env.CLOUDINARY_BRAND || "default-product-folder",
       },
     },
   },

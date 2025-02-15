@@ -3,6 +3,7 @@ import { AppError } from "./app-error.error";
 import { NotFoundError } from "./not-found-error";
 import { Unauthenticated } from "./unauthenticated-error";
 import { Unauthorized } from "./unauthorized-error";
+import { internalServerError } from "./internal-server.error";
 
 export const Errors = {
   AppError,
@@ -10,4 +11,5 @@ export const Errors = {
   NotFoundError,
   Unauthenticated,
   Unauthorized,
+  internalServerError,
 };

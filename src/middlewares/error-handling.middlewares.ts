@@ -1,8 +1,9 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 import { AppError } from "../errors/app-error.error";
-import { env } from "../config/env";
 import { logger } from "../config/winston";
+import { MongoServerError } from "mongodb";
+import { env } from "../config/env";
 
 export const errorHandler: ErrorRequestHandler = async (
   err: Error,
@@ -14,6 +15,13 @@ export const errorHandler: ErrorRequestHandler = async (
 
   if (err instanceof AppError) {
     res.status(err.statusCode).json({ message: err.serializeError() });
+    return;
+  }
+
+  if (err instanceof MongoServerError && err.code === 11000) {
+    res.status(400).json({
+      errors: [{ message: "Duplicate value, this slug already exists." }],
+    });
     return;
   }
 
