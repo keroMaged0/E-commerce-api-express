@@ -1,3 +1,4 @@
+import { addImageToBrandHandler } from "./add-image-to-brand.controller";
 import { createBrandHandler } from "./create-brand.controller";
 import { deleteBrandHandler } from "./delete-brand.controller";
 import { getBrandByIdHandler } from "./get-brand.controller";
@@ -11,4 +12,5 @@ export {
   getBrandByIdHandler,
   updateBrandHandler,
   deleteBrandHandler,
+  addImageToBrandHandler
 };
