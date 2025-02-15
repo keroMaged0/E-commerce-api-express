@@ -39,7 +39,14 @@ router
     Guards.isauthorized(PERMISSIONS.ADMIN),
     validator(val.paramsVal),
     handlers.deleteBrandHandler
-  );
+  )
+  .post(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    uploadMemoryStorage().single("logo"),
+    validator(val.paramsVal),
+    handlers.addImageToBrandHandler
+  )
 
 
 export const brandsRoutes = router;
