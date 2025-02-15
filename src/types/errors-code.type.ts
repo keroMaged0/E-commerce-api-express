@@ -27,6 +27,9 @@ export enum ErrorCodes {
   NO_FILE_UPLOADED = "NO_FILE_UPLOADED",
   MAXIMUM_FILE_UPLOAD = "MAXIMUM_FILE_UPLOAD",
   PRODUCT_ALREADY_HAS_IMAGES = "PRODUCT_ALREADY_HAS_IMAGES",
+  BRAND_NOT_FOUND = "BRAND_NOT_FOUND",
+  FILE_REQUIRED = "FILE_REQUIRED",
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -58,4 +61,7 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.NO_FILE_UPLOADED]: "No File Uploaded",
   [ErrorCodes.MAXIMUM_FILE_UPLOAD]: "Maximum File Upload",
   [ErrorCodes.PRODUCT_ALREADY_HAS_IMAGES]: "Product Already Has Images",
+  [ErrorCodes.BRAND_NOT_FOUND]: "Brand Not Found",
+  [ErrorCodes.FILE_REQUIRED]: "File Required",  
+  [ErrorCodes.INTERNAL_SERVER_ERROR]: "Internal Server Error",
 };
