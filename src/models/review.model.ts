@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { Product } from "./product.model";
 
 interface IReview extends Document {
   review_comment: string;
@@ -46,6 +47,12 @@ const reviewSchema = new Schema<IReview>(
 
 reviewSchema.pre("find", function () {
   this.where({ is_deleted: false });
+});
+
+reviewSchema.post("save", async function (doc) {
+  await Product.findByIdAndUpdate(doc.product_id, {
+    $push: { reviews: doc._id },
+  });
 });
 
 export const Review = mongoose.model<IReview>("Review", reviewSchema);
