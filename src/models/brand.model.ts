@@ -70,4 +70,8 @@ brandSchema.pre("save", function (this: IBrand, next) {
   next();
 });
 
+brandSchema.pre("find", function () {
+  this.where({ is_deleted: false });
+});
+
 export const Brand = mongoose.model<IBrand>("Brand", brandSchema);
