@@ -104,6 +104,7 @@ const productSchema = new Schema<IProduct>(
         },
       },
     ],
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 
     category_id: {
       type: Schema.Types.ObjectId,

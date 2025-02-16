@@ -33,6 +33,7 @@ export enum ErrorCodes {
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
   BRAND_ALREADY_HAS_IMAGE = "BRAND_ALREADY_HAS_IMAGE",
   CLOUDINARY_UPLOAD_ERROR = "CLOUDINARY_UPLOAD_ERROR",
+  USER_NOT_FOUND = "USER_NOT_FOUND",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -70,4 +71,5 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.INTERNAL_SERVER_ERROR]: "Internal Server Error",
   [ErrorCodes.BRAND_ALREADY_HAS_IMAGE]: "Brand Already Has Image",
   [ErrorCodes.CLOUDINARY_UPLOAD_ERROR]: "Cloudinary Upload Error",
+  [ErrorCodes.USER_NOT_FOUND]: "User Not Found",    
 };
