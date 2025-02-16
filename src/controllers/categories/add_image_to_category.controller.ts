@@ -16,7 +16,7 @@ export const addImageToCategoryHandler: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
-    const category = await Category.findByIdActive(req.params.id as any);
+    const category = await Category.findById(req.params.id);
     if (!category)
       return next(new Errors.NotFoundError(ErrorCodes.CATEGORY_NOT_FOUND));
 

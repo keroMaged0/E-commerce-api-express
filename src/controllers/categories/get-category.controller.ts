@@ -12,12 +12,10 @@ export const getCategoryByIdHandler: RequestHandler<
   SuccessResponse,
   unknown
 > = async (req, res, next) => {
-  const category = await Category.findByIdActive(req.params.id as any).populate(
-    [
-      { path: "children_id", select: "name" },
-      { path: "parent_id", select: "name" },
-    ]
-  );
+  const category = await Category.findById(req.params.id).populate([
+    { path: "children_id", select: "name" },
+    { path: "parent_id", select: "name" },
+  ]);
   if (!category)
     return next(new Errors.NotFoundError(ErrorCodes.CATEGORY_NOT_FOUND));
 

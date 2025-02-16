@@ -14,7 +14,7 @@ export const getChildCategoriesHandler: RequestHandler<
 > = async (req, res, next) => {
   const { id } = req.params;
 
-  const category = await Category.findByIdActive(id as any).populate({
+  const category = await Category.findById(id).populate({
     path: "children_id",
     select: "-parent_id",
   });
