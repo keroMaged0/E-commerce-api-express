@@ -4,6 +4,7 @@ import { IDiscount_type, Product } from "../../models/product.model";
 import { SuccessResponse } from "../../types/responses.type";
 import { ErrorCodes } from "../../types/errors-code.type";
 import { updateImage } from "../../utils/upload-media";
+import { Brand } from "../../models/brand.model";
 import { logger } from "../../config/winston";
 import { Errors } from "../../errors";
 
@@ -18,6 +19,7 @@ export const updateProductHandler: RequestHandler<
     discount_type?: string;
     stock?: number;
     oldPublicId?: string;
+    brand_id?: string;
   }
 > = async (req, res, next) => {
   const {
@@ -28,6 +30,7 @@ export const updateProductHandler: RequestHandler<
     discount_type,
     stock,
     oldPublicId,
+    brand_id,
   } = req.body;
   const { id } = req.params;
 
@@ -77,6 +80,7 @@ export const updateProductHandler: RequestHandler<
   if (oldPublicId && product.images) {
     if (!req.file)
       return next(new Errors.BadRequest(ErrorCodes.IMAGE_NOT_FOUND));
+
     const matchOld = product.images.find(
       (img) => img.public_id === oldPublicId
     );
@@ -97,6 +101,14 @@ export const updateProductHandler: RequestHandler<
     if (index !== -1) {
       product.images[index].secure_url = result;
     }
+  }
+
+  if (brand_id) {
+    const brnad = await Brand.findById(brand_id);
+    if (!brnad)
+      return next(new Errors.NotFoundError(ErrorCodes.BRAND_NOT_FOUND));
+
+    product.brand_id = brand_id as any;
   }
 
   await product.save();

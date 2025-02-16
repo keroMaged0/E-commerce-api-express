@@ -30,6 +30,7 @@ interface IProduct extends Document {
 
   created_by: mongoose.Types.ObjectId;
   category_id: mongoose.Types.ObjectId;
+  brand_id: mongoose.Types.ObjectId;
 
   images?: IImage[];
 }
@@ -103,15 +104,19 @@ const productSchema = new Schema<IProduct>(
       },
     ],
 
-    created_by: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-
     category_id: {
       type: Schema.Types.ObjectId,
       ref: "Category",
+      required: true,
+    },
+    brand_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+      required: true,
+    },
+    created_by: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },
@@ -131,6 +136,16 @@ productSchema.virtual("category", {
   localField: "category_id",
   foreignField: "_id",
   justOne: true,
+});
+productSchema.virtual("brand", {
+  ref: "Brand",
+  localField: "brand_id",
+  foreignField: "_id",
+  justOne: true,
+});
+
+productSchema.pre("find", function () {
+  this.where({ is_deleted: false });
 });
 
 export const Product = mongoose.model<IProduct>("Product", productSchema);

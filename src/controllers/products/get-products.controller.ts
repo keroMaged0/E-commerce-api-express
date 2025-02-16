@@ -10,7 +10,10 @@ export const getProductsHandler: RequestHandler<
   unknown
 > = async (req, res, next) => {
   try {
-    const products = await Product.find().populate("category");
+    const products = await Product.find().populate([
+      { path: "brand_id", select: "name" },
+      { path: "category_id", select: "name" },
+    ]);
 
     res.status(200).json({
       success: true,
