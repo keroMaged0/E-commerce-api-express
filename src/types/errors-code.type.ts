@@ -18,6 +18,8 @@ export enum ErrorCodes {
   IMAGE_NOT_FOUND = "IMAGE_NOT_FOUND",
   IMAGE_REQUIRED  = "IMAGE_REQUIRED",
   CLOUDINARY_ERROR = "CLOUDINARY_ERROR",
+  FILE_REQUIRED = "FILE_REQUIRED",
+  IMAGE_ALREADY_EXISTS = "IMAGE_ALREADY_EXISTS",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -40,4 +42,6 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.IMAGE_NOT_FOUND]: "Image Not Found",
   [ErrorCodes.IMAGE_REQUIRED]: "Image Required",
   [ErrorCodes.CLOUDINARY_ERROR]: "Cloudinary Error",
+  [ErrorCodes.FILE_REQUIRED]: "File Required",
+  [ErrorCodes.IMAGE_ALREADY_EXISTS]: "Image Already Exists",
 };

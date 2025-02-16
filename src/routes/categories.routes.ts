@@ -39,7 +39,15 @@ router
     Guards.isauthorized(PERMISSIONS.ADMIN),
     validator(val.paramsVal),
     handlers.deleteCategoryHandler
-  );
+  )
+  .post(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    uploadMemoryStorage().single("image"),
+    validator(val.paramsVal),
+    handlers.addImageToCategoryHandler
+  )
+
 
 router
   .route("/children/:id")

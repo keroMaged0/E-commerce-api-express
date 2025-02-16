@@ -1,15 +1,15 @@
-import { Document, model, Model, Schema, Types } from "mongoose";
+import { Document, model, Model, Query, Schema, Types } from "mongoose";
 import slugify from "slugify";
 
 interface ICategory extends Document {
   name: string;
   slug: string;
   description: string;
-  image_url?: {
+  image?: {
     public_id: string;
     secure_url: string;
+    folder_id: string;
   };
-  folder_id?: string;
   is_deleted?: boolean;
   parent_id?: Types.ObjectId | ICategory;
   children_id?: Types.ObjectId[] | ICategory[];
@@ -17,7 +17,8 @@ interface ICategory extends Document {
 }
 
 interface ICategoryModel extends Model<ICategory> {
-  findActive(): Promise<ICategory[]>;
+  findActive(): Query<ICategory[], ICategory>;
+  findByIdActive(id: Types.ObjectId): Query<ICategory | null, ICategory>;
 }
 
 const categorySchema = new Schema<ICategory, ICategoryModel>(
@@ -38,7 +39,7 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
       required: [true, "description is required"],
       minlength: 10,
     },
-    image_url: {
+    image: {
       public_id: {
         type: String,
         required: false,
@@ -49,12 +50,13 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
         required: false,
         default: null,
       },
+      folder_id: {
+        type: String,
+        required: false,
+        default: null,
+      },
     },
-    folder_id: {
-      type: String,
-      required: false,
-      default: null,
-    },
+
     is_deleted: {
       type: Boolean,
       default: false,
@@ -102,19 +104,19 @@ categorySchema.virtual("childrenList", {
   foreignField: "_id",
 });
 
-categorySchema.pre("find", function () {
-  this.where({ is_deleted: false });
-});
+categorySchema.statics.findActive = function () {
+  return this.find({ is_deleted: false });
+};
+
+categorySchema.statics.findByIdActive = function (id: Types.ObjectId) {
+  return this.findOne({ _id: id, is_deleted: false });
+};
 
 categorySchema.pre<ICategory>("save", function (next) {
   if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
   next();
-});
-
-categorySchema.pre("find", function () {
-  this.where({ is_deleted: false });
 });
 
 export const Category = model<ICategory, ICategoryModel>(
