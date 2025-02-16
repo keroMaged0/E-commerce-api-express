@@ -32,6 +32,7 @@ interface IProduct extends Document {
   category_id: mongoose.Types.ObjectId;
   brand_id: mongoose.Types.ObjectId;
 
+  reviews?: mongoose.Types.ObjectId[];
   images?: IImage[];
 }
 

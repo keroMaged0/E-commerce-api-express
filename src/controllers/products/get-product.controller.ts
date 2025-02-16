@@ -18,6 +18,7 @@ export const getProductByIdHandler: RequestHandler<
     const product = await Product.findById({ _id: id }).populate([
       { path: "brand_id" },
       { path: "category_id" },
+      { path: "reviews" },
     ]);
     if (!product)
       return next(new Errors.NotFoundError(ErrorCodes.PRODUCT_NOT_FOUND));

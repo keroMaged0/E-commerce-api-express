@@ -13,6 +13,7 @@ export const getProductsHandler: RequestHandler<
     const products = await Product.find().populate([
       { path: "brand_id", select: "name" },
       { path: "category_id", select: "name" },
+      { path: "reviews", select: "-_id user rating comment" },
     ]);
 
     res.status(200).json({
