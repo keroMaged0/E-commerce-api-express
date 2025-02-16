@@ -15,7 +15,10 @@ export const getProductByIdHandler: RequestHandler<
 > = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const product = await Product.findById({ _id: id }).populate("category_id");
+    const product = await Product.findById({ _id: id }).populate([
+      { path: "brand_id" },
+      { path: "category_id" },
+    ]);
     if (!product)
       return next(new Errors.NotFoundError(ErrorCodes.PRODUCT_NOT_FOUND));
 

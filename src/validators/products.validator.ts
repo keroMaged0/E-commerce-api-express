@@ -10,6 +10,9 @@ const createProduct = {
     category_id: Joi.string()
       .regex(/^[a-fA-F0-9]{24}$/)
       .required(),
+    brand_id: Joi.string()
+      .regex(/^[a-fA-F0-9]{24}$/)
+      .required(),
   }),
 };
 
@@ -22,6 +25,7 @@ const updateProduct = {
     stock: Joi.number().min(0).optional(),
     category_id: Joi.string().trim().optional(),
     oldPublicId: Joi.string().trim().optional(),
+    brand_id: Joi.string().trim().optional(),
   }),
   params: Joi.object({
     id: Joi.string().trim().required(),

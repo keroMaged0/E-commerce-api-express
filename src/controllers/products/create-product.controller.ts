@@ -9,6 +9,7 @@ import { Category } from "../../models/category.model";
 import { logger } from "../../config/winston";
 import { env } from "../../config/env";
 import { Errors } from "../../errors";
+import { Brand } from "../../models/brand.model";
 
 interface productResponseBody {
   name: string;
@@ -18,6 +19,7 @@ interface productResponseBody {
   discount?: number;
   stock?: number;
   category_id: mongoose.Types.ObjectId;
+  brand_id?: mongoose.Types.ObjectId;
 }
 export const createProductHandler: RequestHandler<
   unknown,
@@ -32,12 +34,16 @@ export const createProductHandler: RequestHandler<
       discount,
       stock,
       category_id,
+      brand_id,
       discount_type,
     } = req.body;
 
     const category = await Category.findById(category_id);
     if (!category)
       return next(new Errors.BadRequest(ErrorCodes.CATEGORY_NOT_FOUND));
+
+    const brand = await Brand.findById(brand_id);
+    if (!brand) return next(new Errors.BadRequest(ErrorCodes.BRAND_NOT_FOUND));
 
     let applied_price: number = base_price;
     if (discount) {
@@ -89,6 +95,7 @@ export const createProductHandler: RequestHandler<
       category_id,
       images: finalImageData,
       created_by: req.loggedUser.user_id,
+      brand_id,
     });
     if (!product) return next(new Errors.BadRequest(ErrorCodes.INTERNAL_ERROR));
 
