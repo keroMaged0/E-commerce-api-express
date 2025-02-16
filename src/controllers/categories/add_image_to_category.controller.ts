@@ -3,9 +3,10 @@ import { RequestHandler } from "express";
 import { uploadImageToCloudinary } from "../../utils/upload-media";
 import { SuccessResponse } from "../../types/responses.type";
 import { ErrorCodes } from "../../types/errors-code.type";
+import { Category } from "../../models/category.model";
+import { logger } from "../../config/winston";
 import { env } from "../../config/env";
 import { Errors } from "../../errors";
-import { Category } from "../../models/category.model";
 
 export const addImageToCategoryHandler: RequestHandler<
   {
@@ -30,11 +31,15 @@ export const addImageToCategoryHandler: RequestHandler<
       file,
       env.mediaStorage.cloudinary.images.category
     );
+    if (!result?.secure_url || !result.public_id)
+      return next(
+        new Errors.internalServerError(ErrorCodes.CLOUDINARY_UPLOAD_ERROR)
+      );
 
     category.image = {
       public_id: result?.public_id,
       secure_url: result?.secure_url,
-      folder_id: result?.folderId as string,
+      folder_id: result?.folder_id as string,
     };
     await category.save();
 

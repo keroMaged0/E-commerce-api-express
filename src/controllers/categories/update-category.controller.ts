@@ -1,10 +1,9 @@
 import { RequestHandler } from "express";
 
-import { updateImage, uploadImageToCloudinary } from "../../utils/upload-media";
 import { SuccessResponse } from "../../types/responses.type";
 import { ErrorCodes } from "../../types/errors-code.type";
+import { updateImage } from "../../utils/upload-media";
 import { Category } from "../../models/category.model";
-import { env } from "../../config/env";
 import { Errors } from "../../errors";
 
 export const updateCategoryHandler: RequestHandler<
@@ -40,7 +39,11 @@ export const updateCategoryHandler: RequestHandler<
   if (oldPublicId) {
     if (!req.file) return next(new Errors.BadRequest(ErrorCodes.FILE_REQUIRED));
 
-    const updatedSecureUrl = await updateImage(oldPublicId, req.file);
+    const updatedSecureUrl = await updateImage(
+      oldPublicId,
+      category.image?.folder_id as string,
+      req.file
+    );
     if (!updatedSecureUrl)
       return next(new Errors.BadRequest(ErrorCodes.CLOUDINARY_ERROR));
 
@@ -50,7 +53,6 @@ export const updateCategoryHandler: RequestHandler<
       folder_id: category.image?.folder_id as string,
     };
   }
-
   category.name = name || category.name;
 
   category.description = description || category.description;
@@ -60,6 +62,6 @@ export const updateCategoryHandler: RequestHandler<
   res.status(200).json({
     success: true,
     message: "Category updated successfully",
-    data: category,
+    data: {},
   });
 };

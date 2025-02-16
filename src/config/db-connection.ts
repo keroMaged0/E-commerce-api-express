@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logger } from "./winston";
 
 export const dbConnection = () => {
   mongoose
@@ -7,6 +8,6 @@ export const dbConnection = () => {
       console.log("Connected to MongoDB!");
     })
     .catch((err) => {
-      console.error("Error connecting to MongoDB:", err);
+      logger.error(err);
     });
 };

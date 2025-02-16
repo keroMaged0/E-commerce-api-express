@@ -1,4 +1,5 @@
 import { cloudinaryConnection } from "../config/cloudinary.config";
+import { logger } from "../config/winston";
 import { Crypto } from "./crypto.utils";
 
 export const uploadImageToCloudinary = async (
@@ -27,16 +28,19 @@ export const uploadImageToCloudinary = async (
     return {
       secure_url: result.secure_url,
       public_id: result.public_id,
-      folderId,
+      folder_id: folderId,
     };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };
 
-export const updateImage = async (oldPublicId, file: Express.Multer.File) => {
+export const updateImage = async (
+  oldPublicId,
+  folderId,
+  file: Express.Multer.File
+) => {
   try {
-    const folderId = oldPublicId.split("/category/")[1].split("/")[0];
     const basePath = oldPublicId.split(`${folderId}`)[0];
 
     const uploadResult = await uploadImageToCloudinary(
@@ -45,11 +49,10 @@ export const updateImage = async (oldPublicId, file: Express.Multer.File) => {
       file.originalname,
       folderId
     );
-    
     await cloudinaryConnection().uploader.destroy(oldPublicId);
 
     return uploadResult?.secure_url;
   } catch (error) {
-    console.log(error);
+    logger.error(error);
   }
 };

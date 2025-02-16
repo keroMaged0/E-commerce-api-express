@@ -1,6 +1,7 @@
 import { createTransport, Transporter } from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 import { env } from "../config/env";
+import { logger } from "../config/winston";
 
 export interface Imail {
   from: string;
@@ -8,8 +9,6 @@ export interface Imail {
   subject: string;
   html: string;
 }
-
- 
 
 class MailTransporter {
   transporter: Transporter<SMTPTransport.SentMessageInfo>;
@@ -29,9 +28,9 @@ class MailTransporter {
   verifyTransporter() {
     this.transporter.verify(function (error, success) {
       if (error) {
-        console.log(error);
+        logger.error("Server is not ready to take our messages", error);
       } else {
-        console.log("Server is ready to take our messages", success);
+        logger.error("Server is not ready to take our messages", error);
       }
     });
   }

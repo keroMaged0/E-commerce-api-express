@@ -4,6 +4,7 @@ import { getCategoriesHandler } from "./get-categories.controller";
 import { getCategoryByIdHandler } from "./get-category.controller";
 import { updateCategoryHandler } from "./update-category.controller";
 import { getChildCategoriesHandler } from "./get-child-categories.controller";
+import { addImageToCategoryHandler } from "./add_image_to_category.controller";
 
 export {
   createCategoryHandler,
@@ -12,4 +13,5 @@ export {
   updateCategoryHandler,
   deleteCategoryHandler,
   getChildCategoriesHandler,
+  addImageToCategoryHandler,
 };

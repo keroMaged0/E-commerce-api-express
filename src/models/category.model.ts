@@ -1,15 +1,16 @@
 import { Document, model, Model, Query, Schema, Types } from "mongoose";
 import slugify from "slugify";
 
+interface IIamge {
+  public_id: string;
+  secure_url: string;
+  folder_id: string;
+}
 interface ICategory extends Document {
   name: string;
   slug: string;
   description: string;
-  image?: {
-    public_id: string;
-    secure_url: string;
-    folder_id: string;
-  };
+  image?: IIamge;
   is_deleted?: boolean;
   parent_id?: Types.ObjectId | ICategory;
   children_id?: Types.ObjectId[] | ICategory[];
@@ -64,14 +65,7 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
     parent_id: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      validate: {
-        validator: function (this: ICategory, value: Types.ObjectId) {
-          const docId = this._id as Types.ObjectId;
-          if (!docId || !value) return false;
-          return !docId.equals(value);
-        },
-        message: "parent category can't be the same as the category itself",
-      },
+      default: null,
     },
     children_id: [
       {
@@ -91,13 +85,19 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
   }
 );
 
+categorySchema.pre<ICategory>("save", function (next) {
+  if (this.isModified("name")) {
+    this.slug = slugify(this.name, { lower: true, strict: true });
+  }
+  next();
+});
+
 categorySchema.virtual("parentDetails", {
   ref: "Category",
   localField: "parent_id",
   foreignField: "_id",
   justOne: true,
 });
-
 categorySchema.virtual("childrenList", {
   ref: "Category",
   localField: "children_id",
@@ -107,17 +107,9 @@ categorySchema.virtual("childrenList", {
 categorySchema.statics.findActive = function () {
   return this.find({ is_deleted: false });
 };
-
 categorySchema.statics.findByIdActive = function (id: Types.ObjectId) {
   return this.findOne({ _id: id, is_deleted: false });
 };
-
-categorySchema.pre<ICategory>("save", function (next) {
-  if (this.isModified("name")) {
-    this.slug = slugify(this.name, { lower: true, strict: true });
-  }
-  next();
-});
 
 export const Category = model<ICategory, ICategoryModel>(
   "Category",
