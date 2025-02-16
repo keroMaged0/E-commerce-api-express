@@ -19,7 +19,7 @@ export const deleteBrandHandler: RequestHandler<
     const { id } = req.params;
 
     const brand = await Brand.findOneAndUpdate(
-      { _id: id, created_by: userId, is_deleted: false },
+      { _id: id, created_by: userId },
       {
         is_deleted: true,
       }
