@@ -1,10 +1,9 @@
 import { RequestHandler } from "express";
 
-import { updateImage, uploadImageToCloudinary } from "../../utils/upload-media";
 import { SuccessResponse } from "../../types/responses.type";
 import { ErrorCodes } from "../../types/errors-code.type";
+import { updateImage } from "../../utils/upload-media";
 import { Category } from "../../models/category.model";
-import { env } from "../../config/env";
 import { Errors } from "../../errors";
 
 export const updateCategoryHandler: RequestHandler<
@@ -13,18 +12,15 @@ export const updateCategoryHandler: RequestHandler<
   {
     name?: string;
     description?: string;
-    image_url?: string;
+    oldPublicId?: string;
     parent_id?: string;
   }
 > = async (req, res, next) => {
-  const { name, description, parent_id } = req.body;
+  const { name, description, oldPublicId, parent_id } = req.body;
   const { user_id } = req.loggedUser;
   const { id } = req.params;
 
-  const category = await Category.findOne({
-    _id: id,
-    is_deleted: false,
-  });
+  const category = await Category.findByIdActive(id as any);
   if (!category) return next(new Errors.BadRequest(ErrorCodes.NOT_FOUND));
 
   if (category.created_by?.toString() !== user_id.toString())
@@ -40,39 +36,23 @@ export const updateCategoryHandler: RequestHandler<
     await parentCategory.save();
   }
 
-  if (req?.file) {
-    if (!category?.image_url?.folder_id) {
-      let uploadResult = await uploadImageToCloudinary(
-        req.file,
-        env.mediaStorage.cloudinary.images.category
-      );
-      if (!uploadResult)
-        return next(new Errors.BadRequest(ErrorCodes.CLOUDINARY_ERROR));
+  if (oldPublicId) {
+    if (!req.file) return next(new Errors.BadRequest(ErrorCodes.FILE_REQUIRED));
 
-      category.image_url = {
-        secure_url: uploadResult.secure_url,
-        public_id: uploadResult.public_id,
-        folder_id: uploadResult.folder_id,
-      };
-    } else {
-      const oldPublicId = category.image_url?.public_id;
-      const folderId = category.image_url?.folder_id;
-      const updatedSecureUrl = await updateImage(
-        oldPublicId,
-        folderId,
-        req.file
-      );
-      if (!updatedSecureUrl)
-        return next(new Errors.BadRequest(ErrorCodes.CLOUDINARY_ERROR));
+    const updatedSecureUrl = await updateImage(
+      oldPublicId,
+      category.image?.folder_id as string,
+      req.file
+    );
+    if (!updatedSecureUrl)
+      return next(new Errors.BadRequest(ErrorCodes.CLOUDINARY_ERROR));
 
-      category.image_url = {
-        secure_url: updatedSecureUrl,
-        public_id: oldPublicId,
-        folder_id: category.image_url?.folder_id,
-      };
-    }
+    category.image = {
+      secure_url: updatedSecureUrl,
+      public_id: oldPublicId,
+      folder_id: category.image?.folder_id as string,
+    };
   }
-
   category.name = name || category.name;
 
   category.description = description || category.description;
@@ -82,6 +62,6 @@ export const updateCategoryHandler: RequestHandler<
   res.status(200).json({
     success: true,
     message: "Category updated successfully",
-    data: category,
+    data: {},
   });
 };

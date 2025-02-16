@@ -1,4 +1,4 @@
-import { Document, model, Model, Schema, Types } from "mongoose";
+import { Document, model, Model, Query, Schema, Types } from "mongoose";
 import slugify from "slugify";
 
 interface IIamge {
@@ -10,7 +10,7 @@ interface ICategory extends Document {
   name: string;
   slug: string;
   description: string;
-  image_url?: IIamge;
+  image?: IIamge;
   is_deleted?: boolean;
   parent_id?: Types.ObjectId | ICategory;
   children_id?: Types.ObjectId[] | ICategory[];
@@ -18,7 +18,8 @@ interface ICategory extends Document {
 }
 
 interface ICategoryModel extends Model<ICategory> {
-  findActive(): Promise<ICategory[]>;
+  findActive(): Query<ICategory[], ICategory>;
+  findByIdActive(id: Types.ObjectId): Query<ICategory | null, ICategory>;
 }
 
 const categorySchema = new Schema<ICategory, ICategoryModel>(
@@ -39,7 +40,7 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
       required: [true, "description is required"],
       minlength: 10,
     },
-    image_url: {
+    image: {
       public_id: {
         type: String,
         required: false,
@@ -64,14 +65,6 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
     parent_id: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      validate: {
-        validator: function (this: ICategory, value: Types.ObjectId) {
-          const docId = this._id as Types.ObjectId;
-          if (!docId || !value) return false;
-          return !docId.equals(value);
-        },
-        message: "parent category can't be the same as the category itself",
-      },
       default: null,
     },
     children_id: [
@@ -92,23 +85,6 @@ const categorySchema = new Schema<ICategory, ICategoryModel>(
   }
 );
 
-categorySchema.virtual("parentDetails", {
-  ref: "Category",
-  localField: "parent_id",
-  foreignField: "_id",
-  justOne: true,
-});
-
-categorySchema.virtual("childrenList", {
-  ref: "Category",
-  localField: "children_id",
-  foreignField: "_id",
-});
-
-categorySchema.pre("find", function () {
-  this.where({ is_deleted: false });
-});
-
 categorySchema.pre<ICategory>("save", function (next) {
   if (this.isModified("name")) {
     this.slug = slugify(this.name, { lower: true, strict: true });
@@ -116,9 +92,24 @@ categorySchema.pre<ICategory>("save", function (next) {
   next();
 });
 
-categorySchema.pre("find", function () {
-  this.where({ is_deleted: false });
+categorySchema.virtual("parentDetails", {
+  ref: "Category",
+  localField: "parent_id",
+  foreignField: "_id",
+  justOne: true,
 });
+categorySchema.virtual("childrenList", {
+  ref: "Category",
+  localField: "children_id",
+  foreignField: "_id",
+});
+
+categorySchema.statics.findActive = function () {
+  return this.find({ is_deleted: false });
+};
+categorySchema.statics.findByIdActive = function (id: Types.ObjectId) {
+  return this.findOne({ _id: id, is_deleted: false });
+};
 
 export const Category = model<ICategory, ICategoryModel>(
   "Category",

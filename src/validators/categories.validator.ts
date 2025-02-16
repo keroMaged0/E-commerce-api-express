@@ -5,7 +5,6 @@ const createCategory = {
     name: Joi.string().trim().min(3).max(50).required(),
     description: Joi.string().trim().min(10).max(200),
     parent_id: Joi.string().trim().optional().allow(null),
-    image: Joi.string().trim().optional().allow(null),
   }),
 };
 
@@ -14,8 +13,7 @@ const updateCategory = {
     name: Joi.string().trim().min(3).max(50).optional(),
     description: Joi.string().trim().min(10).max(200).optional(),
     parent_id: Joi.string().trim().optional().allow(null),
-    image: Joi.string().trim().optional().allow(null),
-  }),
+  }).or("name", "description", "parent_id"),
   params: Joi.object({
     id: Joi.string().trim().required(),
   }),

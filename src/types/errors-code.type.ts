@@ -18,6 +18,8 @@ export enum ErrorCodes {
   IMAGE_NOT_FOUND = "IMAGE_NOT_FOUND",
   IMAGE_REQUIRED = "IMAGE_REQUIRED",
   CLOUDINARY_ERROR = "CLOUDINARY_ERROR",
+  FILE_REQUIRED = "FILE_REQUIRED",
+  IMAGE_ALREADY_EXISTS = "IMAGE_ALREADY_EXISTS",
   INVALID_DISCOUNT = "INVALID_DISCOUNT",
   INVALID_CATEGORY_ID = "INVALID_CATEGORY_ID",
   INVALID_FILE_COUNT = "INVALID_FILE_COUNT",
@@ -28,9 +30,9 @@ export enum ErrorCodes {
   MAXIMUM_FILE_UPLOAD = "MAXIMUM_FILE_UPLOAD",
   PRODUCT_ALREADY_HAS_IMAGES = "PRODUCT_ALREADY_HAS_IMAGES",
   BRAND_NOT_FOUND = "BRAND_NOT_FOUND",
-  FILE_REQUIRED = "FILE_REQUIRED",
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
   BRAND_ALREADY_HAS_IMAGE = "BRAND_ALREADY_HAS_IMAGE",
+  CLOUDINARY_UPLOAD_ERROR = "CLOUDINARY_UPLOAD_ERROR",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -53,6 +55,8 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.IMAGE_NOT_FOUND]: "Image Not Found",
   [ErrorCodes.IMAGE_REQUIRED]: "Image Required",
   [ErrorCodes.CLOUDINARY_ERROR]: "Cloudinary Error",
+  [ErrorCodes.FILE_REQUIRED]: "File Required",
+  [ErrorCodes.IMAGE_ALREADY_EXISTS]: "Image Already Exists",
   [ErrorCodes.INVALID_DISCOUNT]: "Invalid Discount",
   [ErrorCodes.INVALID_CATEGORY_ID]: "Invalid Category ID",
   [ErrorCodes.INVALID_FILE_COUNT]: "Invalid File Count",
@@ -63,7 +67,7 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.MAXIMUM_FILE_UPLOAD]: "Maximum File Upload",
   [ErrorCodes.PRODUCT_ALREADY_HAS_IMAGES]: "Product Already Has Images",
   [ErrorCodes.BRAND_NOT_FOUND]: "Brand Not Found",
-  [ErrorCodes.FILE_REQUIRED]: "File Required",
   [ErrorCodes.INTERNAL_SERVER_ERROR]: "Internal Server Error",
   [ErrorCodes.BRAND_ALREADY_HAS_IMAGE]: "Brand Already Has Image",
+  [ErrorCodes.CLOUDINARY_UPLOAD_ERROR]: "Cloudinary Upload Error",
 };

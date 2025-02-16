@@ -46,7 +46,7 @@ export const createCategoryHandler: RequestHandler<
     name,
     description,
     slug,
-    image_url: finalImageData,
+    image: finalImageData,
     parent_id,
     created_by: user_id,
   });

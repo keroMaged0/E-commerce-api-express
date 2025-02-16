@@ -8,7 +8,7 @@ export const getCategoriesHandler: RequestHandler<
   SuccessResponse,
   unknown
 > = async (req, res, next) => {
-  const categories = await Category.find().populate([
+  const categories = await Category.findActive().populate([
     {
       path: "children_id",
       select: "name",
