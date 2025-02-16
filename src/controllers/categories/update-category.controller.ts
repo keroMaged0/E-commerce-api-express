@@ -20,7 +20,7 @@ export const updateCategoryHandler: RequestHandler<
   const { user_id } = req.loggedUser;
   const { id } = req.params;
 
-  const category = await Category.findByIdActive(id as any);
+  const category = await Category.findById(id);
   if (!category) return next(new Errors.BadRequest(ErrorCodes.NOT_FOUND));
 
   if (category.created_by?.toString() !== user_id.toString())
