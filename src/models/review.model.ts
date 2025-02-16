@@ -8,6 +8,7 @@ interface IReview extends Document {
 
   product_id: mongoose.Schema.Types.ObjectId;
   created_by: mongoose.Schema.Types.ObjectId;
+  user_id: mongoose.Schema.Types.ObjectId;
 
   is_deleted: boolean;
 }
@@ -30,6 +31,11 @@ const reviewSchema = new Schema<IReview>(
       minlength: [2, "too short reviews comment"],
     },
     created_by: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
