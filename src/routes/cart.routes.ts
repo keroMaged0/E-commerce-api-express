@@ -10,32 +10,36 @@ const router = Router();
 
 router
   .route("/")
-  .get(Guards.isauthenticated, handlers.getCartsHandler)
+  .get(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    handlers.getCartHandler
+  )
   .post(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.createCart),
-    handlers.addCartHandler
-  );
-
-router
-  .route("/:id")
-  .get(
-    Guards.isauthenticated,
-    validator(val.paramsVal),
-    handlers.getCartByIdHandler
-  )
-  .put(
-    Guards.isauthenticated,
-    Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.updateCart),
-    handlers.updateCartHandler
+    validator(val.addToCart),
+    handlers.addToCartHandler
   )
   .delete(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.paramsVal),
-    handlers.deleteCartHandler
+    handlers.clearCartHandler
   );
 
-export const CartsRoutes = router;
+router
+  .route("/:product_id")
+  .delete(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    validator(val.paramsVal),
+    handlers.removeItemFromCartHandler
+  )
+  .patch(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    validator(val.updateQuantity),
+    handlers.updateQuantityHandler
+  );
+
+export const cartsRoutes = router;
