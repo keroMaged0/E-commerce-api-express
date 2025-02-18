@@ -35,7 +35,7 @@ router
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
     validator(val.paramsVal),
-    handlers.deleteOrderHandler
+    handlers.cancelOrderHandler
   );
 
 export const OrdersRoutes = router;

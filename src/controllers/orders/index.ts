@@ -1,5 +1,5 @@
 import { addOrderHandler } from "./add-order.controller";
-import { deleteOrderHandler } from "./delete-order.controller";
+import { cancelOrderHandler } from "./cancel-order.controller";
 import { getOrderByIdHandler } from "./get-order.controller";
 import { getOrdersHandler } from "./get-orders.controller";
 import { updateOrderHandler } from "./update-order.controller";
@@ -9,5 +9,5 @@ export {
   getOrderByIdHandler,
   getOrdersHandler,
   updateOrderHandler,
-  deleteOrderHandler,
+  cancelOrderHandler,
 };
