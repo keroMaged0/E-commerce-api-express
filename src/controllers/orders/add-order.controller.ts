@@ -1,43 +1,34 @@
 import { RequestHandler } from "express";
 
 import { SuccessResponse } from "../../types/responses.type";
-
 import { logger } from "../../config/winston";
-import { Product } from "../../models/product.model";
-import { Errors } from "../../errors";
-import { ErrorCodes } from "../../types/errors-code.type";
-import { User } from "../../models/user.model";
-import { Review } from "../../models/review.model";
+import { IShippingAddress, Order, PaymentMethod } from "../../models/order.model";
+import { Cart } from "../../models/cart.model";
+
+interface OrderResponseBody {
+  shipping_address: IShippingAddress;
+  payment_method: PaymentMethod;
+}
 
 export const addOrderHandler: RequestHandler<
   unknown,
   SuccessResponse,
-  {
-    review_rate: number;
-    review_comment: string;
-    product_id: string;
-  }
+  OrderResponseBody
 > = async (req, res, next) => {
   try {
-    const { review_rate, review_comment, product_id } = req.body;
-    const user_id = req.loggedUser.user_id;
+    const { shipping_address, payment_method } = req.body;
+    const userId = req.loggedUser.user_id;
 
-    const product = await Product.findById(product_id);
-    if (!product)
-      return next(new Errors.BadRequest(ErrorCodes.PRODUCT_NOT_FOUND));
+    const cart = await Cart.findOne({ user_id: userId }).populate("cart_items.product_id");
 
-    const user = await User.findById(user_id);
-    if (!user) return next(new Errors.BadRequest(ErrorCodes.USER_NOT_FOUND));
-
-    //:TODO: check if user has already reviewed the product
-
-    //:TODO: update product average rating and total reviews
-
-    const review = await Review.create({
-      review_rate,
-      review_comment,
-      user_id,
+    // Create order
+    const order = await Order.create({
+      user_id: userId,
+      shipping_address,
+      payment_method,
+      order_items: ,
     });
+
   } catch (error) {
     next();
     logger.error(error);
