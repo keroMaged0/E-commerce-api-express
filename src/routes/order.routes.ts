@@ -14,12 +14,12 @@ router
   .post(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.createOrder),
+    validator(val.addOrder),
     handlers.addOrderHandler
   );
 
 router
-  .route("/:id")
+  .route("/:order_id")
   .get(
     Guards.isauthenticated,
     validator(val.paramsVal),
@@ -35,7 +35,7 @@ router
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
     validator(val.paramsVal),
-    handlers.deleteOrderHandler
+    handlers.cancelOrderHandler
   );
 
-export const OrdersRoutes = router;
+export const ordersRoutes = router;

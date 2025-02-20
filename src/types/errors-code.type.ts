@@ -34,9 +34,11 @@ export enum ErrorCodes {
   BRAND_ALREADY_HAS_IMAGE = "BRAND_ALREADY_HAS_IMAGE",
   CLOUDINARY_UPLOAD_ERROR = "CLOUDINARY_UPLOAD_ERROR",
   USER_NOT_FOUND = "USER_NOT_FOUND",
-  CART_NOT_FOUND  = "CART_NOT_FOUND",
+  CART_NOT_FOUND = "CART_NOT_FOUND",
   ITEM_NOT_FOUND = "ITEM_NOT_FOUND",
   CART_IS_EMPTY = "CART_IS_EMPTY",
+  ORDER_NOT_FOUND = "ORDER_NOT_FOUND",
+  COUPON_NOT_FOUND = "COUPON_NOT_FOUND",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -74,8 +76,10 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.INTERNAL_SERVER_ERROR]: "Internal Server Error",
   [ErrorCodes.BRAND_ALREADY_HAS_IMAGE]: "Brand Already Has Image",
   [ErrorCodes.CLOUDINARY_UPLOAD_ERROR]: "Cloudinary Upload Error",
-  [ErrorCodes.USER_NOT_FOUND]: "User Not Found",  
+  [ErrorCodes.USER_NOT_FOUND]: "User Not Found",
   [ErrorCodes.CART_NOT_FOUND]: "Cart Not Found",
   [ErrorCodes.ITEM_NOT_FOUND]: "Item Not Found",
-  [ErrorCodes.CART_IS_EMPTY]: "Cart Is Empty",  
+  [ErrorCodes.CART_IS_EMPTY]: "Cart Is Empty",
+  [ErrorCodes.ORDER_NOT_FOUND]: "Order Not Found",
+  [ErrorCodes.COUPON_NOT_FOUND]: "Coupon Not Found",
 };

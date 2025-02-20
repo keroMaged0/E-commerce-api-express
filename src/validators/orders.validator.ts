@@ -1,20 +1,56 @@
 import Joi from "joi";
 
-const createOrder = {
-  body: Joi.object({}),
+const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+
+const addOrder = {
+  body: Joi.object({
+    shipping_address: Joi.object({
+      address: Joi.string().required(),
+      city: Joi.string().required(),
+      state: Joi.string().required(),
+      postalCode: Joi.string().required(),
+      country: Joi.string().required(),
+      phone: Joi.string().required(),
+    }).required(),
+
+    payment_method: Joi.string().valid("credit_card", "paypal").required(),
+
+    order_status: Joi.string()
+      .valid("pending", "completed", "cancelled")
+      .optional(),
+
+    coupon_id: Joi.string().pattern(objectIdRegex).optional(),
+  }),
 };
 
 const updateOrder = {
-  body: Joi.object({}),
+  body: Joi.object({
+    shipping_address: Joi.object({
+      address: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+      postalCode: Joi.string().optional(),
+      country: Joi.string().optional(),
+      phone: Joi.string().optional(),
+    }).optional(),
+
+    payment_method: Joi.string().valid("credit_card", "paypal").optional(),
+
+    order_status: Joi.string()
+      .valid("pending", "completed", "cancelled")
+      .optional(),
+
+    coupon_id: Joi.string().pattern(objectIdRegex).optional(),
+  }),
   params: Joi.object({
-    id: Joi.string().trim().required(),
+    order_id: Joi.string().pattern(objectIdRegex).required(),
   }),
 };
 
 const paramsVal = {
   params: Joi.object({
-    id: Joi.string().required(),
+    order_id: Joi.string().pattern(objectIdRegex).required(),
   }),
 };
 
-export { createOrder, updateOrder, paramsVal };
+export { addOrder, updateOrder, paramsVal };
