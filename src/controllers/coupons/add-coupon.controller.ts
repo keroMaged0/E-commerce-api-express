@@ -9,7 +9,7 @@ import { ErrorCodes } from "../../types/errors-code.type";
 import { User } from "../../models/user.model";
 import { Review } from "../../models/review.model";
 
-export const addCartHandler: RequestHandler<
+export const addCouponHandler: RequestHandler<
   unknown,
   SuccessResponse,
   {

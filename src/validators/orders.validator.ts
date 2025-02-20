@@ -2,13 +2,8 @@ import Joi from "joi";
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
-const createOrder = {
+const addOrder = {
   body: Joi.object({
-    order_items: Joi.array()
-      .items(Joi.string().pattern(objectIdRegex))
-      .min(1)
-      .required(),
-
     shipping_address: Joi.object({
       address: Joi.string().required(),
       city: Joi.string().required(),
@@ -20,38 +15,42 @@ const createOrder = {
 
     payment_method: Joi.string().valid("credit_card", "paypal").required(),
 
-    payment_transaction_id: Joi.string().optional(),
-    payment_status: Joi.string().optional(),
-    payment_date: Joi.date().optional(),
+    order_status: Joi.string()
+      .valid("pending", "completed", "cancelled")
+      .optional(),
+
+    coupon_id: Joi.string().pattern(objectIdRegex).optional(),
+  }),
+};
+
+const updateOrder = {
+  body: Joi.object({
+    shipping_address: Joi.object({
+      address: Joi.string().optional(),
+      city: Joi.string().optional(),
+      state: Joi.string().optional(),
+      postalCode: Joi.string().optional(),
+      country: Joi.string().optional(),
+      phone: Joi.string().optional(),
+    }).optional(),
+
+    payment_method: Joi.string().valid("credit_card", "paypal").optional(),
 
     order_status: Joi.string()
       .valid("pending", "completed", "cancelled")
       .optional(),
 
-    shipping_price: Joi.number().min(0).required(),
-    coupon_price: Joi.number().min(0).default(0),
-    tax_price: Joi.number().min(0).default(0),
-    total_price: Joi.number().min(0).required(),
-
-    is_delivered: Joi.boolean().default(false),
-
-    expected_delivery: Joi.date().optional(),
-    delivered_at: Joi.date().optional(),
-    cancelled_at: Joi.date().optional(),
+    coupon_id: Joi.string().pattern(objectIdRegex).optional(),
   }),
-};
-
-const updateOrder = {
-  body: Joi.object({}),
   params: Joi.object({
-    id: Joi.string().trim().required(),
+    order_id: Joi.string().pattern(objectIdRegex).required(),
   }),
 };
 
 const paramsVal = {
   params: Joi.object({
-    id: Joi.string().required(),
+    order_id: Joi.string().pattern(objectIdRegex).required(),
   }),
 };
 
-export { createOrder, updateOrder, paramsVal };
+export { addOrder, updateOrder, paramsVal };

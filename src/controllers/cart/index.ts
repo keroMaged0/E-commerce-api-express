@@ -1,13 +1,13 @@
-import { addCartHandler } from "./add-cart.controller";
-import { deleteCartHandler } from "./delete-cart.controller";
-import { getCartByIdHandler } from "./get-cart.controller";
-import { getCartsHandler } from "./get-carts.controller";
-import { updateCartHandler } from "./update-cart.controller";
+import { addToCartHandler } from "./add-to-cart.controller";
+import { removeItemFromCartHandler } from "./remove-item-from-cart.controller";
+import { getCartHandler } from "./get-cart.controller";
+import { updateQuantityHandler } from "./update-quantity.controller";
+import { clearCartHandler } from "./clear-cart.controller";
 
 export {
-  addCartHandler,
-  getCartByIdHandler,
-  getCartsHandler,
-  updateCartHandler,
-  deleteCartHandler,
+  addToCartHandler,
+  getCartHandler,
+  updateQuantityHandler,
+  removeItemFromCartHandler,
+  clearCartHandler,
 };

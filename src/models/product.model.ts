@@ -42,6 +42,7 @@ const productSchema = new Schema<IProduct>(
       type: String,
       required: [true, "name is required"],
       trim: true,
+      
       maxlength: 100,
     },
     slug: {

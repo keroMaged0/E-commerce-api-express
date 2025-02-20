@@ -4,7 +4,7 @@ import { SuccessResponse } from "../../types/responses.type";
 
 import { logger } from "../../config/winston";
 
-export const updateCartHandler: RequestHandler<
+export const getCouponByIdHandler: RequestHandler<
   unknown,
   SuccessResponse,
   {}
