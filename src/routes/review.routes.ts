@@ -14,7 +14,7 @@ router
   .post(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.createReview),
+    validator(val.addReview),
     handlers.addReviewHandler
   );
 

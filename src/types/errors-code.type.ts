@@ -39,6 +39,9 @@ export enum ErrorCodes {
   CART_IS_EMPTY = "CART_IS_EMPTY",
   ORDER_NOT_FOUND = "ORDER_NOT_FOUND",
   COUPON_NOT_FOUND = "COUPON_NOT_FOUND",
+  REVIEW_ALREADY_EXISTS = "REVIEW_ALREADY_EXISTS",
+  PRODUCT_NOT_ORDERED = "PRODUCT_NOT_ORDERED",
+  REVIEW_NOT_FOUND = "REVIEW_NOT_FOUND",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -82,4 +85,8 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.CART_IS_EMPTY]: "Cart Is Empty",
   [ErrorCodes.ORDER_NOT_FOUND]: "Order Not Found",
   [ErrorCodes.COUPON_NOT_FOUND]: "Coupon Not Found",
+  [ErrorCodes.REVIEW_ALREADY_EXISTS]: "Review Already Exists",
+  [ErrorCodes.PRODUCT_NOT_ORDERED]:
+    "You can't review a product you haven't ordered",
+  [ErrorCodes.REVIEW_NOT_FOUND]: "Review Not Found",
 };
