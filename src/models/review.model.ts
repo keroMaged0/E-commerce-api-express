@@ -7,6 +7,7 @@ interface IReview extends Document {
   review_rate: number;
 
   product_id: mongoose.Schema.Types.ObjectId;
+  order_id: mongoose.Schema.Types.ObjectId;
   created_by: mongoose.Schema.Types.ObjectId;
   user_id: mongoose.Schema.Types.ObjectId;
 
@@ -38,6 +39,11 @@ const reviewSchema = new Schema<IReview>(
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+    },
+    order_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Order",
       required: true,
     },
     is_deleted: {
