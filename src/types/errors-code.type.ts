@@ -42,6 +42,10 @@ export enum ErrorCodes {
   REVIEW_ALREADY_EXISTS = "REVIEW_ALREADY_EXISTS",
   PRODUCT_NOT_ORDERED = "PRODUCT_NOT_ORDERED",
   REVIEW_NOT_FOUND = "REVIEW_NOT_FOUND",
+  INVALID_DATE_FORMAT = "INVALID_DATE_FORMAT",
+  COUPON_ALREADY_EXISTS = "COUPON_ALREADY_EXISTS",
+  START_DATE_IN_PAST = "START_DATE_IN_PAST",
+  EXPIRY_DATE_BEFORE_START = "EXPIRY_DATE_BEFORE_START",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -89,4 +93,9 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.PRODUCT_NOT_ORDERED]:
     "You can't review a product you haven't ordered",
   [ErrorCodes.REVIEW_NOT_FOUND]: "Review Not Found",
+  [ErrorCodes.INVALID_DATE_FORMAT]: "Invalid Date Format",
+  [ErrorCodes.COUPON_ALREADY_EXISTS]: "Coupon Already Exists",
+  [ErrorCodes.START_DATE_IN_PAST]: "Start Date Must Be In The Future",
+  [ErrorCodes.EXPIRY_DATE_BEFORE_START]:
+    "Start Date Must Be Before Start Date Invalid Date",
 };
