@@ -14,7 +14,7 @@ router
   .post(
     Guards.isauthenticated,
     Guards.isauthorized(PERMISSIONS.ADMIN),
-    validator(val.createCoupon),
+    validator(val.addCoupon),
     handlers.addCouponHandler
   );
 
@@ -38,4 +38,4 @@ router
     handlers.deleteCouponHandler
   );
 
-export const couponsRoutes = router;
+export const couponRoutes = router;
