@@ -90,4 +90,9 @@ const couponSchema = new Schema<ICoupon>(
   }
 );
 
+couponSchema.pre("find", function (next) {
+  this.where({ is_deleted: false });
+  next();
+});
+
 export const Coupon = mongoose.model<ICoupon>("Coupon", couponSchema);
