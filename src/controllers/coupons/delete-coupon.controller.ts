@@ -18,7 +18,7 @@ export const deleteCouponHandler: RequestHandler<
     const { user_id } = req.loggedUser;
 
     const coupon = await Coupon.findOneAndUpdate(
-      { _id: id, created_by: user_id },
+      { _id: id, created_by: user_id, is_deleted: false },
       {
         is_deleted: true,
       }
