@@ -1,11 +1,11 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { ICartItem } from "./cart.model";
 
 export interface IShippingAddress {
   address: string;
   city: string;
-  state: string;
+  street: string;
   postalCode: string;
-  country: string;
   phone: string;
 }
 
@@ -19,31 +19,27 @@ export enum OrderStatus {
 
 export enum PaymentMethod {
   CREDIT_CARD = "credit_card",
-  PAYPAL = "paypal",
+  CACHE = "cache",
 }
 
 interface IOrder extends Document {
   user_id: mongoose.Schema.Types.ObjectId;
   delivered_by?: mongoose.Schema.Types.ObjectId;
-  coupon_id: mongoose.Schema.Types.ObjectId;
-  order_items: mongoose.Schema.Types.ObjectId[];
+  cart_items: ICartItem[];
 
   shipping_address: IShippingAddress;
   payment_method: PaymentMethod;
   order_status: OrderStatus;
 
-  payment_transaction_id?: string;
-  payment_status?: string;
-
-  shipping_price: number;
-  tax_price: number;
-  total_price: number;
+  sub_total: number;
+  discount_price: number;
+  total_price_after_discount: number;
 
   is_delivered: boolean;
+  is_paid: boolean;
 
-  expected_delivery?: Date;
   delivered_at?: Date;
-  payment_date?: Date;
+  paid_at?: Date;
   cancelled_at?: Date;
 }
 
@@ -59,25 +55,30 @@ const orderSchema = new Schema<IOrder>(
       ref: "User",
       default: null,
     },
-    coupon_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Coupon",
-      default: null,
-    },
-    order_items: [
+    cart_items: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
       },
     ],
 
     shipping_address: {
       address: { type: String, required: true },
       city: { type: String, required: true },
-      state: { type: String, required: true },
+      street: { type: String, required: true },
       postalCode: { type: String, required: true },
-      country: { type: String, required: true },
       phone: { type: String, required: true },
     },
     payment_method: {
@@ -85,38 +86,25 @@ const orderSchema = new Schema<IOrder>(
       enum: Object.values(PaymentMethod),
       required: true,
     },
-    payment_transaction_id: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    payment_status: {
-      type: String,
-      required: false,
-      default: null,
-    },
-    payment_date: {
-      type: Date,
-      required: false,
-      default: null,
-    },
     order_status: {
       type: String,
       enum: Object.values(OrderStatus),
       default: OrderStatus.PENDING,
     },
-
-    shipping_price: {
+    total_price_after_discount: {
       type: Number,
       required: true,
-      default: 0,
     },
-    tax_price: { type: Number, default: 0 },
-    total_price: { type: Number, required: true },
+
+    sub_total: { type: Number, required: true },
+    discount_price: { type: Number, required: true },
+
     is_delivered: { type: Boolean, default: false },
+    is_paid: { type: Boolean, default: false },
+
     delivered_at: { type: Date },
+    paid_at: { type: Date },
     cancelled_at: { type: Date },
-    expected_delivery: { type: Date },
   },
   {
     timestamps: true,

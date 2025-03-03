@@ -25,10 +25,6 @@ export const getOrderByIdHandler: RequestHandler<
         path: "user_id",
         select: "username",
       },
-      {
-        path: "order_items",
-        select: "name base_price applied_price discount discount_type ",
-      },
     ]);
     if (!order) return next(new Errors.BadRequest(ErrorCodes.ORDER_NOT_FOUND));
 

@@ -17,10 +17,6 @@ export const getOrdersHandler: RequestHandler<
         path: "user_id",
         select: "username",
       },
-      {
-        path: "order_items",
-        select: "name base_price applied_price discount discount_type ",
-      },
     ]);
 
     res.status(200).json({

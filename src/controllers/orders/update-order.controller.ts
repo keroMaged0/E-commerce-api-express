@@ -20,13 +20,11 @@ export const updateOrderHandler: RequestHandler<
     order_status?: OrderStatus;
     payment_method?: PaymentMethod;
     shipping_address?: IShippingAddress;
-    coupon_id?: string;
   }
 > = async (req, res, next) => {
   try {
     const { order_id } = req.params;
-    const { order_status, payment_method, shipping_address, coupon_id } =
-      req.body;
+    const { order_status, payment_method, shipping_address } = req.body;
 
     const order = await Order.findOne({
       _id: order_id,
@@ -41,10 +39,6 @@ export const updateOrderHandler: RequestHandler<
     if (payment_method) order.payment_method = payment_method;
 
     if (shipping_address) order.shipping_address = shipping_address;
-
-    if (coupon_id) {
-      //:TODO: check if coupon is valid
-    }
 
     await order.save();
 
