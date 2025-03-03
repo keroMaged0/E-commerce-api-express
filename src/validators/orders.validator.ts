@@ -7,19 +7,12 @@ const addOrder = {
     shipping_address: Joi.object({
       address: Joi.string().required(),
       city: Joi.string().required(),
-      state: Joi.string().required(),
+      street: Joi.string().required(),
       postalCode: Joi.string().required(),
-      country: Joi.string().required(),
       phone: Joi.string().required(),
     }).required(),
 
-    payment_method: Joi.string().valid("credit_card", "paypal").required(),
-
-    order_status: Joi.string()
-      .valid("pending", "completed", "cancelled")
-      .optional(),
-
-    coupon_id: Joi.string().pattern(objectIdRegex).optional(),
+    payment_method: Joi.string().valid("credit_card", "cache").required(),
   }),
 };
 

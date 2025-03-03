@@ -5,15 +5,14 @@ import {
   Order,
   PaymentMethod,
 } from "../../models/order.model";
-import { calculateOrderValues } from "../../services/order.service";
 import { SuccessResponse } from "../../types/responses.type";
+import { Product } from "../../models/product.model";
 import { Cart } from "../../models/cart.model";
 import { logger } from "../../config/winston";
 
 interface OrderResponseBody {
   shipping_address: IShippingAddress;
   payment_method: PaymentMethod;
-  coupon_id: string;
 }
 
 export const addOrderHandler: RequestHandler<
@@ -21,7 +20,7 @@ export const addOrderHandler: RequestHandler<
   SuccessResponse,
   OrderResponseBody
 > = async (req, res, next) => {
-  const { shipping_address, payment_method, coupon_id } = req.body;
+  const { shipping_address, payment_method } = req.body;
   const userId = req.loggedUser.user_id;
 
   try {
@@ -35,28 +34,32 @@ export const addOrderHandler: RequestHandler<
       return;
     }
 
-    const { tax_price, shipping_price, total_price, couponObjectId } =
-      calculateOrderValues(cart, coupon_id);
-
-    const orderItems = cart.items.map((item) => item.product._id);
+    let totalOrderPrice = cart.total_price_after_discount
+      ? cart.total_price_after_discount
+      : cart.sub_total;
 
     const order = new Order({
-      order_items: orderItems,
+      order_items: cart.items,
       user_id: userId,
       shipping_address,
       payment_method,
-      tax_price,
-      shipping_price,
-      total_price,
-      coupon_id: couponObjectId,
+      sub_total: cart.sub_total,
+      total_price_after_discount: totalOrderPrice,
     });
-    await order.save();
 
-    cart.items = [];
-    cart.total_items = 0;
-    cart.sub_total = 0;
-    cart.total_price_after_discount = 0;
-    await cart.save();
+    if (order) {
+      let options = cart.items.map((item) => ({
+        updateOne: {
+          filter: { _id: item.product },
+          update: { $inc: { stock: -item.quantity } },
+        },
+      }));
+
+      await Product.bulkWrite(options);
+      await order.save();
+    }
+
+    await Cart.findByIdAndDelete(cart._id);
 
     res.status(201).json({
       success: true,
