@@ -1,9 +1,6 @@
-import Stripe from "stripe";
-
 import { logger } from "../config/winston";
+import { stripe } from "../config/stripe";
 import { env } from "../config/env";
-
-const stripe = new Stripe(env.payment.stripe.secretKey);
 
 interface PaymentParams {
   amount: number;
@@ -11,9 +8,12 @@ interface PaymentParams {
   userId: string;
   productName: string;
 }
+interface PaymentResponse {
+  sessionId: string;
+}
 
 export class PaymentGateway {
-  static async createPayment(params: PaymentParams) {
+  static async createPayment(params: PaymentParams): Promise<PaymentResponse> {
     try {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -32,16 +32,13 @@ export class PaymentGateway {
         mode: "payment",
         success_url: `${env.frontUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${env.frontUrl}/cancel`,
-
+        client_reference_id: params.paymentId,
         metadata: {
           paymentId: params.paymentId,
           userId: params.userId,
         },
       });
-
-      return {
-        sessionId: session.id,
-      };
+      return { sessionId: session.id };
     } catch (error: any) {
       logger.error(error.message);
       throw new Error("Failed to create payment");

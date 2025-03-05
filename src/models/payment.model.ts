@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export enum PaymentMethod {
+export enum PaymentMethodEnum {
   CREDIT_CARD = "credit_card",
   PAYPAL = "paypal",
 }
@@ -18,73 +18,39 @@ export enum PaymentStatus {
   REFUNDED = "refunded",
 }
 
-interface IPayment extends Document {
+export interface IPayment extends Document {
   user_id: mongoose.Schema.Types.ObjectId;
   order_id: mongoose.Schema.Types.ObjectId;
-
-  payment_method: PaymentMethod;
-
+  payment_method: PaymentMethodEnum;
   payment_receipt_url?: string;
-  payment_status?: PaymentStatus;
-  transaction_id?: string;
+  payment_status: PaymentStatus;
+  refund_transaction_id?: string;
   refund_status?: RefundStatus;
-
   amount: number;
-
   payment_date: Date;
 }
 
 const paymentSchema = new Schema<IPayment>(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    order_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Order",
-      required: true,
-    },
+    user_id: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    order_id: { type: Schema.Types.ObjectId, ref: "Order", required: true },
     payment_method: {
       type: String,
-      enum: PaymentMethod,
+      enum: Object.values(PaymentMethodEnum),
       required: true,
     },
-    amount: {
-      type: Number,
-      required: true,
-    },
-    transaction_id: {
-      type: String,
-      required: false,
-    },
-    payment_receipt_url: {
-      type: String,
-      required: false,
-    },
+    amount: { type: Number, required: true },
+    refund_transaction_id: { type: String },
+    payment_receipt_url: { type: String },
     payment_status: {
       type: String,
-      enum: PaymentStatus,
-      required: false,
+      enum: Object.values(PaymentStatus),
       default: PaymentStatus.PENDING,
     },
-    payment_date: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
-
-    refund_status: {
-      type: String,
-      enum: RefundStatus,
-      required: false,
-      default: null,
-    },
+    payment_date: { type: Date, default: Date.now, required: true },
+    refund_status: { type: String, enum: Object.values(RefundStatus), default: null },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Payment = mongoose.model<IPayment>("Payment", paymentSchema);

@@ -19,7 +19,7 @@ export enum OrderStatus {
 
 export enum PaymentMethod {
   CREDIT_CARD = "credit_card",
-  CACHE = "cache",
+  CASH_ON_DELIVERY = "cash_on_delivery",
 }
 
 interface IOrder extends Document {
