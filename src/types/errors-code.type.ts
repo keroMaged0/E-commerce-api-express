@@ -46,6 +46,7 @@ export enum ErrorCodes {
   COUPON_ALREADY_EXISTS = "COUPON_ALREADY_EXISTS",
   START_DATE_IN_PAST = "START_DATE_IN_PAST",
   EXPIRY_DATE_BEFORE_START = "EXPIRY_DATE_BEFORE_START",
+  PAYMENT_ALREADY_DONE = "PAYMENT_ALREADY_DONE",
   CART_EMPTY = "CART_EMPTY",
 }
 
@@ -99,5 +100,6 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.START_DATE_IN_PAST]: "Start Date Must Be In The Future",
   [ErrorCodes.EXPIRY_DATE_BEFORE_START]:
     "Start Date Must Be Before Start Date Invalid Date",
+  [ErrorCodes.PAYMENT_ALREADY_DONE]: "Payment Already Done",
   [ErrorCodes.CART_EMPTY]: "Cart Is Empty",
 };

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { categoriesRoutes } from "./categories.routes";
 import { productsRoutes } from "./products.routes";
+import { paymentsRoutes } from "./payments.routes";
 import { reviewsRoutes } from "./review.routes";
 import { couponRoutes } from "./coupon.routes";
 import { brandsRoutes } from "./brands.routes";
@@ -19,5 +20,6 @@ app.use("/carts", cartsRoutes);
 app.use("/orders", ordersRoutes);
 app.use("/reviews", reviewsRoutes);
 app.use("/coupons", couponRoutes);
+app.use("/payments", paymentsRoutes);
 
 export const appRoutes = app;

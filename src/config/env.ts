@@ -5,9 +5,7 @@ config();
 export const env = {
   port: +(process.env.DEV_PORT || 3000) as number,
   environment: process.env.NODE_ENV?.trim() || "development",
-  frontUrl: process.env.FRONT_URL?.split(",").map((el) =>
-    el.trim()
-  ) as string[],
+  frontUrl: process.env.FRONT_URL!,
   apiUrl: process.env.API_URL!,
   token: {
     secret: process.env.TOKEN_SECRET!,
@@ -41,6 +39,12 @@ export const env = {
         product: process.env.CLOUDINARY_PRODUCT || "default-product-folder",
         brand: process.env.CLOUDINARY_BRAND || "default-product-folder",
       },
+    },
+  },
+
+  payment: {
+    stripe: {
+      secretKey: process.env.STRIPE_SECRET_KEY!,
     },
   },
 };
