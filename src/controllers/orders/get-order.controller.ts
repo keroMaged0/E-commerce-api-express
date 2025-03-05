@@ -20,12 +20,8 @@ export const getOrderByIdHandler: RequestHandler<
     const order = await Order.findOne({
       _id: order_id,
       user_id: userId,
-    }).populate([
-      {
-        path: "user_id",
-        select: "username",
-      },
-    ]);
+    }).select("order_items total_price_after_discount createdAt status");
+
     if (!order) return next(new Errors.BadRequest(ErrorCodes.ORDER_NOT_FOUND));
 
     res.status(200).json({

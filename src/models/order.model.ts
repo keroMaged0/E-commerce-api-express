@@ -112,9 +112,4 @@ const orderSchema = new Schema<IOrder>(
   }
 );
 
-orderSchema.pre("find", function (next) {
-  this.where({ order_status: { $ne: OrderStatus.CANCELLED } });
-  next();
-});
-
 export const Order = mongoose.model<IOrder>("Order", orderSchema);
