@@ -22,13 +22,13 @@ export const updateOrderHandler: RequestHandler<
     shipping_address?: IShippingAddress;
   }
 > = async (req, res, next) => {
+  const { order_id } = req.params;
+  const { order_status, payment_method, shipping_address } = req.body;
+  const { user_id } = req.loggedUser;
   try {
-    const { order_id } = req.params;
-    const { order_status, payment_method, shipping_address } = req.body;
-
     const order = await Order.findOne({
       _id: order_id,
-      user_id: req.loggedUser.user_id,
+      user_id: user_id,
       order_status: { $ne: OrderStatus.CANCELLED },
     });
     if (!order)

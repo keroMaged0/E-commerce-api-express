@@ -12,12 +12,9 @@ export const getOrdersHandler: RequestHandler<
   try {
     const orders = await Order.find({
       user_id: req.loggedUser.user_id,
-    }).populate([
-      {
-        path: "user_id",
-        select: "username",
-      },
-    ]);
+    })
+      .select("order_items total_price_after_discount createdAt status")
+      .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
