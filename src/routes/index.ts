@@ -12,6 +12,14 @@ import { authRoutes } from "./auth.routes";
 
 const app = Router();
 
+app.get("/success/:session_id", (req, res) => {
+  res.send("success");
+});
+
+app.get("/cancel", (req, res) => {
+  res.send("cancel");
+});
+
 app.use("/auth", authRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/products", productsRoutes);

@@ -41,7 +41,7 @@ export class PaymentGateway {
       return { sessionId: session.id };
     } catch (error: any) {
       logger.error(error.message);
-      throw new Error("Failed to create payment");
+      throw new Error(error.message);
     }
   }
 }

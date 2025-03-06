@@ -97,7 +97,7 @@ const orderSchema = new Schema<IOrder>(
     },
 
     sub_total: { type: Number, required: true },
-    discount_price: { type: Number, required: true },
+    discount_price: { type: Number, required: false },
 
     is_delivered: { type: Boolean, default: false },
     is_paid: { type: Boolean, default: false },
