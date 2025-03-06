@@ -1,6 +1,4 @@
 import Stripe from "stripe";
-import dotenv from "dotenv";
+import { env } from "./env";
 
-dotenv.config();
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
+export const stripe = new Stripe(env.payment.stripe.secretKey);

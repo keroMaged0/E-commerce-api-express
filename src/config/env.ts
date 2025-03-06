@@ -4,6 +4,10 @@ config();
 
 export const env = {
   port: +(process.env.DEV_PORT || 3000) as number,
+  db: {
+    dbConnection: process.env.DB_CONNECTION!,
+    dbHost: process.env.DB_HOST! as string,
+  },
   environment: process.env.NODE_ENV?.trim() || "development",
   frontUrl: process.env.FRONT_URL!,
   apiUrl: process.env.API_URL!,
