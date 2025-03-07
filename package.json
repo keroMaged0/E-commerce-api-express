@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-      "build": "npx tsc",
-  "start": "node build/index.js",
-    "postinstall": "npm run build",
+    "build": "npx tsc",
+    "start": "node build/index.js",
+    "prepare": "npm run build",
     "start:dev": "ts-node-dev --respawn src/index.ts",
     "dev": "nodemon --exec ts-node-dev src/index.ts",
     "test": "jest --no-cache --runInBand --forceExit",
