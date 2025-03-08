@@ -12,8 +12,12 @@ import { authRoutes } from "./auth.routes";
 
 const app = Router();
 
-app.get("/success/:session_id", (req, res) => {
-  res.send("success");
+app.get("/success", (req, res) => {
+  const sessionId = req.query.session_id;
+  if (!sessionId) {
+    res.status(400).json({ message: "session_id is required" });
+  }
+  res.send(`Success! Session ID: ${sessionId}`);
 });
 
 app.get("/cancel", (req, res) => {
