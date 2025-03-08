@@ -1,21 +1,21 @@
 import express from "express";
 import cors from "cors";
 
-import "./types/custom-definition";
+import { stripeWebhookHandler } from "./controllers/payment";
 import { Middlewares } from "./middlewares";
 import { appRoutes } from "./routes";
+import "./types/custom-definition";
 import { env } from "./config/env";
-import { stripeWebhookHandler } from "./controllers/payment";
 
 export const app = express();
-
-app.use(cors({ origin: env.frontUrl }));
 
 app.post(
   "/webhook/stripe",
   express.raw({ type: "application/json" }),
   stripeWebhookHandler
 );
+
+app.use(cors({ origin: env.frontUrl }));
 
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
