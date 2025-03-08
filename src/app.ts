@@ -37,10 +37,6 @@ app.get("/success", (req, res) => {
   });
 });
 
-app.get("/cancel", (req, res) => {
-  res.send("cancel");
-});
-
 app.use("/api/v1", appRoutes);
 
 app.use("*", Middlewares.routeNotFound);
