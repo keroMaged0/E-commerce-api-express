@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 
 import { validator } from "../middlewares/validator.middleware";
 import * as handlers from "../controllers/payment/index";
@@ -17,5 +17,10 @@ router
     handlers.initiatePaymentHandler
   );
 
+router.post(
+  "/webhook/stripe",
+  express.raw({ type: "application/json" }),
+  handlers.stripeWebhookHandler
+);
 
 export const paymentsRoutes = router;

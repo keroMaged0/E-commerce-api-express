@@ -1,3 +1,4 @@
-import { initiatePaymentHandler } from "./initiate_payment.controller";
+import { initiatePaymentHandler } from "./initiate-payment.controller";
+import { stripeWebhookHandler } from "./stripe-webhook.controller";
 
-export { initiatePaymentHandler };
+export { initiatePaymentHandler, stripeWebhookHandler };
