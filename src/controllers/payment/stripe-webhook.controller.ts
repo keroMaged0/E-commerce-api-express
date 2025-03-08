@@ -31,32 +31,42 @@ export const stripeWebhookHandler = async (req, res) => {
       return;
     }
 
-    switch (event.type) {
-      case "checkout.session.completed":
-        const session = event.data.object as any;
-        const paymentId = session.client_reference_id;
-        const orderId = session.metadata?.orderId;
+    if (event.type === "payment_intent.succeeded") {
+      const paymentIntent = event.data.object;
+      const paymentId = paymentIntent.client_reference_id;
+      const orderId = paymentIntent.metadata?.orderId;
 
-        try {
-          await Payment.findByIdAndUpdate(paymentId, {
-            payment_status: PaymentStatus.COMPLETED,
-          });
+      try {
+        await Payment.findByIdAndUpdate(paymentId, {
+          payment_status: PaymentStatus.COMPLETED,
+        });
 
-          if (orderId) {
-            await Order.findByIdAndUpdate(orderId, { is_paid: true });
-          }
-
-          logger.info(`Payment ${paymentId} succeeded.`);
-        } catch (error: any) {
-          logger.error(`Error updating payment ${paymentId}: ${error.message}`);
-          res.status(500).send("Internal Server Error");
-          return;
+        if (orderId) {
+          await Order.findByIdAndUpdate(orderId, { is_paid: true });
         }
-        break;
 
-      default:
-        logger.info(`Unhandled event type ${event.type}`);
+        logger.info(`Payment ${paymentId} succeeded.`);
+      } catch (error: any) {
+        logger.error(`Error updating payment ${paymentId}: ${error.message}`);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
+    } else if (event.type === "payment_intent.payment_failed") {
+      const paymentIntent = event.data.object;
+      const paymentId = paymentIntent.client_reference_id;
+
+      try {
+        await Payment.findByIdAndUpdate(paymentId, {
+          payment_status: PaymentStatus.FAILED,
+        });
+        logger.info(`Payment ${paymentId} failed.`);
+      } catch (error: any) {
+        logger.error(`Error updating payment ${paymentId}: ${error.message}`);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
     }
+
     res.send();
   } catch (error) {
     logger.error("Error in handleStripeWebhook", error);
