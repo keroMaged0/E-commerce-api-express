@@ -23,4 +23,19 @@ router.post(
   handlers.stripeWebhookHandler
 );
 
+router.get("/success", (req, res) => {
+  const sessionId = req.query.session_id;
+  if (!sessionId) {
+    res.status(400).json({ message: "session_id is required" });
+  }
+  res.json({
+    success: true,
+    message: `Payment Successful! Session ID: ${sessionId}`,
+  });
+});
+
+router.get("/cancel", (req, res) => {
+  res.send("cancel");
+});
+
 export const paymentsRoutes = router;

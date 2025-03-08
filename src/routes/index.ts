@@ -12,18 +12,6 @@ import { authRoutes } from "./auth.routes";
 
 const app = Router();
 
-app.get("/success", (req, res) => {
-  const sessionId = req.query.session_id;
-  if (!sessionId) {
-    res.status(400).json({ message: "session_id is required" });
-  }
-  res.send(`Success! Session ID: ${sessionId}`);
-});
-
-app.get("/cancel", (req, res) => {
-  res.send("cancel");
-});
-
 app.use("/auth", authRoutes);
 app.use("/categories", categoriesRoutes);
 app.use("/products", productsRoutes);
