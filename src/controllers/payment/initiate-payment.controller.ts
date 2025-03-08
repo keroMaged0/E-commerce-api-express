@@ -63,6 +63,7 @@ export const initiatePaymentHandler: RequestHandler<
       message: "Payment initiated successfully",
       data: {
         sessionId: paymentSession.sessionId,
+        session: paymentSession.session,
       },
     });
   } catch (err) {

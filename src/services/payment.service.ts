@@ -8,12 +8,9 @@ interface PaymentParams {
   userId: string;
   productName: string;
 }
-interface PaymentResponse {
-  sessionId: string;
-}
 
 export class PaymentGateway {
-  static async createPayment(params: PaymentParams): Promise<PaymentResponse> {
+  static async createPayment(params: PaymentParams) {
     try {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -38,7 +35,10 @@ export class PaymentGateway {
           userId: params.userId,
         },
       });
-      return { sessionId: session.id };
+      return {
+        session,
+        sessionId: session.id,
+      };
     } catch (error: any) {
       logger.error(error.message);
       throw new Error(error.message);
