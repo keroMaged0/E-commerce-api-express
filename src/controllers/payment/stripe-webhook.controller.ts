@@ -4,7 +4,7 @@ import { logger } from "../../config/winston";
 import { stripe } from "../../config/stripe";
 import { env } from "../../config/env";
 
-export const handleStripeWebhook = async (req, res) => {
+export const stripeWebhookHandler = async (req, res) => {
   try {
     const sig = req.headers["stripe-signature"];
     if (!sig) {
