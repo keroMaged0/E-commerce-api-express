@@ -9,6 +9,9 @@ export const env = {
     dbHost: process.env.DB_HOST! as string,
   },
   environment: process.env.NODE_ENV?.trim() || "development",
+  winston: {
+    sourceToken: process.env.WINSTON_SOURCE_TOKEN!,
+  },
   frontUrl: process.env.FRONT_URL!,
   apiUrl: process.env.API_URL!,
   token: {

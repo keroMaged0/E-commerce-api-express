@@ -1,15 +1,18 @@
-import DailyRotateFile from "winston-daily-rotate-file";
 import winston from "winston";
-import path from "path";
+import { LogtailTransport } from "@logtail/winston";
+import { Logtail } from "@logtail/node";
+import { env } from "./env"; // تأكد أن لديك `env` يحتوي على `winston.sourceToken`
 
-const logDirectory = "/tmp";
+const { combine, timestamp, errors, printf } = winston.format;
+
+// تهيئة Logtail
+const logtail = new Logtail(env.winston.sourceToken);
 
 export const logger = winston.createLogger({
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
-    winston.format.simple(),
-    winston.format.printf((info: any) => {
+  format: combine(
+    timestamp(),
+    errors({ stack: true }),
+    printf((info: any) => {
       if (info.stack) {
         return `${info.timestamp} [${info.level.toUpperCase()}]: ${
           info.message
@@ -18,16 +21,8 @@ export const logger = winston.createLogger({
       return `${info.timestamp} [${info.level.toUpperCase()}]: ${info.message}`;
     })
   ),
-
   transports: [
     new winston.transports.Console(),
-
-    new DailyRotateFile({
-      filename: path.join(logDirectory, "logfile-%DATE%.log"),
-      datePattern: "YYYY-MM-DD",
-      zippedArchive: false,
-      maxSize: "20m",
-      maxFiles: "30d",
-    }),
+    new LogtailTransport(logtail),
   ],
 });
