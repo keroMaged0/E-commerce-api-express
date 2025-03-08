@@ -17,12 +17,4 @@ router
     handlers.initiatePaymentHandler
   );
 
-router.post(
-  "/webhook/stripe",
-  express.raw({ type: "application/json" }),
-  handlers.stripeWebhookHandler
-);
-
-
-
 export const paymentsRoutes = router;

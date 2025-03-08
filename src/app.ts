@@ -5,6 +5,7 @@ import "./types/custom-definition";
 import { Middlewares } from "./middlewares";
 import { appRoutes } from "./routes";
 import { env } from "./config/env";
+import { stripeWebhookHandler } from "./controllers/payment";
 
 export const app = express();
 
@@ -33,6 +34,12 @@ app.get("/success", (req, res) => {
 app.get("/cancel", (req, res) => {
   res.send("cancel");
 });
+
+app.post(
+  "/webhook/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebhookHandler
+);
 
 app.use("/api/v1", appRoutes);
 
