@@ -1,5 +1,5 @@
 import { Payment, PaymentStatus } from "../../models/payment.model";
-import { Order } from "../../models/order.model";
+import { Order, OrderStatus } from "../../models/order.model";
 import { logger } from "../../config/winston";
 import { stripe } from "../../config/stripe";
 import { env } from "../../config/env";
@@ -25,14 +25,7 @@ export const stripeWebhookHandler = async (req, res) => {
       return;
     }
 
-    if (!event) {
-      logger.error("Webhook Error: Event is undefined.");
-      res.status(400).send("Webhook Error: Event is undefined.");
-      return;
-    }
-
     if (event.type === "checkout.session.completed") {
-      
       const paymentIntent = event.data.object;
       const paymentId = paymentIntent.client_reference_id;
       const orderId = paymentIntent.metadata?.orderId;
@@ -42,10 +35,10 @@ export const stripeWebhookHandler = async (req, res) => {
           payment_status: PaymentStatus.COMPLETED,
         });
 
-        if (orderId) {
-          await Order.findByIdAndUpdate(orderId, { is_paid: true });
-        }
-
+        await Order.findByIdAndUpdate(orderId, {
+          is_paid: true,
+          order_status: OrderStatus.COMPLETED,
+        });
 
         logger.info(`Payment ${paymentId} succeeded.`);
       } catch (error: any) {
