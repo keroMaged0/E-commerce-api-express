@@ -21,6 +21,9 @@ export class ApiFeature<T> {
 
   search() {
     const queryObj = { ...this.queryString };
+    const excludeFields = ["page", "limit", "sort", "fields"];
+
+    excludeFields.forEach((field) => delete queryObj[field]);
 
     Object.keys(queryObj).forEach((field) => {
       const value = queryObj[field];
