@@ -24,6 +24,7 @@ export const stripeWebhookHandler = async (req, res) => {
       res.status(400).send("Webhook Error: " + error.message);
       return;
     }
+
     if (!event) {
       logger.error("Webhook Error: Event is undefined.");
       res.status(400).send("Webhook Error: Event is undefined.");
@@ -31,8 +32,8 @@ export const stripeWebhookHandler = async (req, res) => {
     }
 
     if (event.type === "payment_intent.succeeded") {
-      logger.info(`Payment  succeeded.`);
-
+      
+      
       const paymentIntent = event.data.object;
       const paymentId = paymentIntent.client_reference_id;
       const orderId = paymentIntent.metadata?.orderId;
@@ -45,25 +46,16 @@ export const stripeWebhookHandler = async (req, res) => {
         if (orderId) {
           await Order.findByIdAndUpdate(orderId, { is_paid: true });
         }
-      } catch (error: any) {
-        logger.error(`Error updating payment ${paymentId}: ${error.message}`);
-        res.status(500).send("Internal Server Error");
-        return;
-      }
-    } else if (event.type === "payment_intent.payment_failed") {
-      const paymentIntent = event.data.object;
-      const paymentId = paymentIntent.client_reference_id;
 
-      try {
-        await Payment.findByIdAndUpdate(paymentId, {
-          payment_status: PaymentStatus.FAILED,
-        });
-        logger.info(`Payment ${paymentId} failed.`);
+
+        logger.info(`Payment ${paymentId} succeeded.`);
       } catch (error: any) {
         logger.error(`Error updating payment ${paymentId}: ${error.message}`);
         res.status(500).send("Internal Server Error");
         return;
       }
+    } else {
+      logger.info(`Payment failed.`);
     }
 
     res.send();
