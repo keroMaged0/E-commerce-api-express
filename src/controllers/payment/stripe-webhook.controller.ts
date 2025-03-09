@@ -28,14 +28,13 @@ export const stripeWebhookHandler = async (req, res) => {
     if (event.type === "checkout.session.completed") {
       const paymentIntent = event.data.object;
       const paymentId = paymentIntent.client_reference_id;
-      const orderId = paymentIntent.metadata?.orderId;
 
       try {
-        await Payment.findByIdAndUpdate(paymentId, {
+        const payment = await Payment.findByIdAndUpdate(paymentId, {
           payment_status: PaymentStatus.COMPLETED,
         });
 
-        await Order.findByIdAndUpdate(orderId, {
+        await Order.findByIdAndUpdate(payment?.order_id, {
           is_paid: true,
           order_status: OrderStatus.COMPLETED,
         });
