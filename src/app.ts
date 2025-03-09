@@ -15,7 +15,7 @@ app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
   const endpointSecret = env.payment.stripe.stripeWebhookSecret!;
 
   try {
-    const event = stripe.webhooks.constructEvent(req.body, sig, "we_1R0T0LBexFfZ5wR35D3YcYyS");
+    const event = stripe.webhooks.constructEvent(req.body, sig, "whsec_8ncVcq6tmwy3tVUk7BwoDCkMuvvGaipq");
 
     console.log("✅ Webhook received:", event);
     if (event.type === "payment_intent.succeeded") {
