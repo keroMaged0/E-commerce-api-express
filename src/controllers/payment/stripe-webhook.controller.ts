@@ -31,8 +31,7 @@ export const stripeWebhookHandler = async (req, res) => {
       return;
     }
 
-    if (event.type === "payment_intent.succeeded") {
-      
+    if (event.type === "checkout.session.completed") {
       
       const paymentIntent = event.data.object;
       const paymentId = paymentIntent.client_reference_id;
