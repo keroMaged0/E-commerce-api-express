@@ -25,7 +25,6 @@ app.use(Middlewares.authentication);
 app.get("/", (req, res) => {
   res.send("API is working!");
 });
-
 app.get("/success", (req, res) => {
   const sessionId = req.query.session_id;
   if (!sessionId) {
