@@ -48,4 +48,12 @@ const paramsVal = {
   }),
 };
 
-export { addToCart, updateQuantity, paramsVal };
+const applyCoupon = {
+  body: Joi.object({
+    coupon_code: Joi.string().required().messages({
+      "any.required": "Coupon is required",
+    }),
+  }),
+};
+
+export { addToCart, updateQuantity, paramsVal, applyCoupon };

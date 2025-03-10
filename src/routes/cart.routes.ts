@@ -42,4 +42,12 @@ router
     handlers.updateQuantityHandler
   );
 
+router.post(
+  "/apply-coupon",
+  Guards.isauthenticated,
+  Guards.isauthorized(PERMISSIONS.ADMIN),
+  validator(val.applyCoupon),
+  handlers.applyCouponHandler
+);
+
 export const cartsRoutes = router;
