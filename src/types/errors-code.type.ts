@@ -50,6 +50,8 @@ export enum ErrorCodes {
   CART_EMPTY = "CART_EMPTY",
   PAYMENT_ALREADY_INITIATED = "PAYMENT_ALREADY_INITIATED",
   INVALID_COUPON = "INVALID_COUPON",
+  PAYMENT_NOT_FOUND = "PAYMENT_NOT_FOUND",
+  ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED = "ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -106,4 +108,8 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.CART_EMPTY]: "Cart Is Empty",
   [ErrorCodes.PAYMENT_ALREADY_INITIATED]: "Payment Already Initiated",
   [ErrorCodes.INVALID_COUPON]: "Invalid Coupon",
+  [ErrorCodes.PAYMENT_NOT_FOUND]: "Payment Not Found",
+  [ErrorCodes.ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED]:
+    "Only Pending Payment Can Be Cancelled",
 };
+

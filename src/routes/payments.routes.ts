@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import { Router } from "express";
 
 import { validator } from "../middlewares/validator.middleware";
 import * as handlers from "../controllers/payment/index";
@@ -15,6 +15,27 @@ router
     Guards.isauthorized(PERMISSIONS.ADMIN),
     validator(val.initiatePayment),
     handlers.initiatePaymentHandler
+  );
+
+router
+  .route("/")
+  .get(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    handlers.getPaymentsHandler
+  );
+
+router
+  .route("/:id")
+  .get(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    handlers.getPaymentByIdHandler
+  )
+  .delete(
+    Guards.isauthenticated,
+    Guards.isauthorized(PERMISSIONS.ADMIN),
+    handlers.cancelPaymentHandler
   );
 
 export const paymentsRoutes = router;
