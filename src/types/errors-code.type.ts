@@ -49,6 +49,7 @@ export enum ErrorCodes {
   PAYMENT_ALREADY_DONE = "PAYMENT_ALREADY_DONE",
   CART_EMPTY = "CART_EMPTY",
   PAYMENT_ALREADY_INITIATED = "PAYMENT_ALREADY_INITIATED",
+  INVALID_COUPON = "INVALID_COUPON",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -104,4 +105,5 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.PAYMENT_ALREADY_DONE]: "Payment Already Done",
   [ErrorCodes.CART_EMPTY]: "Cart Is Empty",
   [ErrorCodes.PAYMENT_ALREADY_INITIATED]: "Payment Already Initiated",
+  [ErrorCodes.INVALID_COUPON]: "Invalid Coupon",
 };
