@@ -9,6 +9,7 @@ import { brandsRoutes } from "./brands.routes";
 import { ordersRoutes } from "./order.routes";
 import { cartsRoutes } from "./cart.routes";
 import { authRoutes } from "./auth.routes";
+import { wishlistRoutes } from "./wishlist.routes";
 
 const app = Router();
 
@@ -21,5 +22,6 @@ app.use("/orders", ordersRoutes);
 app.use("/reviews", reviewsRoutes);
 app.use("/coupons", couponRoutes);
 app.use("/payments", paymentsRoutes);
+app.use("/wishlist", wishlistRoutes);
 
 export const appRoutes = app;

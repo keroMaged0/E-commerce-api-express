@@ -52,6 +52,8 @@ export enum ErrorCodes {
   INVALID_COUPON = "INVALID_COUPON",
   PAYMENT_NOT_FOUND = "PAYMENT_NOT_FOUND",
   ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED = "ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED",
+  WISHLIST_NOT_FOUND = "WISHLIST_NOT_FOUND",
+  PRODUCT_ALREADY_IN_WISHLIST = "PRODUCT_ALREADY_IN_WISHLIST",
 }
 
 export const ErrorMessages: Record<ErrorCodes, string> = {
@@ -111,5 +113,6 @@ export const ErrorMessages: Record<ErrorCodes, string> = {
   [ErrorCodes.PAYMENT_NOT_FOUND]: "Payment Not Found",
   [ErrorCodes.ONLY_PENDING_PAYMENT_CAN_BE_CANCELLED]:
     "Only Pending Payment Can Be Cancelled",
+  [ErrorCodes.WISHLIST_NOT_FOUND]: "Wishlist Not Found",
+  [ErrorCodes.PRODUCT_ALREADY_IN_WISHLIST]: "Product Already In Wishlist",
 };
-
