@@ -6,6 +6,7 @@ import { ErrorCodes } from "../../types/errors-code.type";
 import { Category } from "../../models/category.model";
 import { env } from "../../config/env";
 import { Errors } from "../../errors";
+import { deleteCache } from "../../utils/cache";
 
 interface categoryResponseBody {
   name: string;
@@ -62,6 +63,9 @@ export const createCategoryHandler: RequestHandler<
   }
 
   await category.save();
+
+  // Clear cache
+  await deleteCache(env.cacheKeys.categories);
 
   res.status(201).json({
     success: true,

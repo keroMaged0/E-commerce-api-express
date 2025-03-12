@@ -4,6 +4,8 @@ import { SuccessResponse } from "../../types/responses.type";
 import { ErrorCodes } from "../../types/errors-code.type";
 import { Category } from "../../models/category.model";
 import { Errors } from "../../errors";
+import { deleteCache } from "../../utils/cache";
+import { env } from "../../config/env";
 
 export const deleteCategoryHandler: RequestHandler<
   {
@@ -19,7 +21,6 @@ export const deleteCategoryHandler: RequestHandler<
     _id: id,
     created_by: user_id,
     is_deleted: false,
-    
   });
   if (!category)
     return next(new Errors.BadRequest(ErrorCodes.CATEGORY_NOT_FOUND));
@@ -34,6 +35,9 @@ export const deleteCategoryHandler: RequestHandler<
   }
 
   await Category.findByIdAndUpdate(id, { is_deleted: true });
+
+  // Clear cache
+  await deleteCache(env.cacheKeys.categories);
 
   res.json({
     message: "Category deleted successfully",

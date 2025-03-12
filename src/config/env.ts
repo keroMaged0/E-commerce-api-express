@@ -61,4 +61,11 @@ export const env = {
     port: Number(process.env.REDIS_PORT) || 6379,
     password: process.env.REDIS_PASSWORD || undefined,
   },
+
+  cacheKeys: {
+    categories: "categories",
+    products: "products",
+    brands: "brands",
+    users: "users",
+  },
 };
