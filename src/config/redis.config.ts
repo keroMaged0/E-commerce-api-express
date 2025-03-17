@@ -5,7 +5,7 @@ import { env } from "./env";
 const redis = new Redis({
   host: env.redis.host,
   port: env.redis.port,
-  password: env.redis.password,
+  password: undefined,
   retryStrategy: (times) => Math.min(times * 50, 2000),
 });
 
