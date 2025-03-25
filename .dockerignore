@@ -1,15 +1,24 @@
-Dockerfile
+# Folders
 node_modules
-__mock__
-*.spec.ts
-*.test.ts
 dist
+.vercel
+
+# Git files
 .git
-package-lock.json
-.eslintrc.json
-.eslintignore
-.prettierignore
-.prettierrc.json
+.gitignore
+
+# IDE files
 .todo
-.vscode   
-readme.md
+
+# Environment files
+.env
+
+# Docker files
+Dockerfile
+docker-compose*
+
+# NPM files
+package-lock.json
+
+
+

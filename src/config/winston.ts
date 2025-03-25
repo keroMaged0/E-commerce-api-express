@@ -1,11 +1,10 @@
 import winston from "winston";
 import { LogtailTransport } from "@logtail/winston";
 import { Logtail } from "@logtail/node";
-import { env } from "./env"; // تأكد أن لديك `env` يحتوي على `winston.sourceToken`
+import { env } from "./env";
 
 const { combine, timestamp, errors, printf } = winston.format;
 
-// تهيئة Logtail
 const logtail = new Logtail(env.winston.sourceToken);
 
 export const logger = winston.createLogger({
@@ -21,8 +20,5 @@ export const logger = winston.createLogger({
       return `${info.timestamp} [${info.level.toUpperCase()}]: ${info.message}`;
     })
   ),
-  transports: [
-    new winston.transports.Console(),
-    new LogtailTransport(logtail),
-  ],
+  transports: [new winston.transports.Console(), new LogtailTransport(logtail)],
 });

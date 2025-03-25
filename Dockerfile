@@ -4,10 +4,15 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install -g npm@latest
-RUN npm install 
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "production" ]; \
+    then npm install --only=production; \
+    else npm install; \
+    fi
 
-COPY . .    
+COPY . .      
 RUN npm run build
 
-CMD ["npm", "start"]
+EXPOSE 3000
+
+CMD ["npm", "start" ]
